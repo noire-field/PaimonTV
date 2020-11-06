@@ -20,6 +20,8 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		969808BF56677BC6F08AFC9B /* libPods-PaimonTV-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23F204C795577E1AE1D9DCDA /* libPods-PaimonTV-tvOS.a */; };
 		B57DF8425653352C7548735F /* libPods-PaimonTV-PaimonTVTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF7700730976A5B38B3BD466 /* libPods-PaimonTV-PaimonTVTests.a */; };
+		0EB34E851F754157BA6EF747 /* NetflixSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DC06076AEE8A4623ADB47DC1 /* NetflixSans-Medium.ttf */; };
+		6864C35F290A44CBBFEDFABB /* NetflixSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FC63476007C43A68F122457 /* NetflixSans-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +69,8 @@
 		F9BC67B7F4A79A1D40E4D558 /* Pods-PaimonTV-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PaimonTV-tvOS.release.xcconfig"; path = "Target Support Files/Pods-PaimonTV-tvOS/Pods-PaimonTV-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		FC8517E75F87108E0588C953 /* Pods-PaimonTV-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PaimonTV-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-PaimonTV-tvOSTests/Pods-PaimonTV-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		FE03DC05EE9E97C36154DB08 /* Pods-PaimonTV-PaimonTVTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PaimonTV-PaimonTVTests.debug.xcconfig"; path = "Target Support Files/Pods-PaimonTV-PaimonTVTests/Pods-PaimonTV-PaimonTVTests.debug.xcconfig"; sourceTree = "<group>"; };
+		DC06076AEE8A4623ADB47DC1 /* NetflixSans-Medium.ttf */ = {isa = PBXFileReference; name = "NetflixSans-Medium.ttf"; path = "../src/assets/fonts/NetflixSans-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0FC63476007C43A68F122457 /* NetflixSans-Regular.ttf */ = {isa = PBXFileReference; name = "NetflixSans-Regular.ttf"; path = "../src/assets/fonts/NetflixSans-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +185,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				5D1092734A244397CF3814AA /* Pods */,
+				76E1ABAAC03C44A18C21DEA2 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -197,6 +202,16 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
+		};
+		76E1ABAAC03C44A18C21DEA2 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				DC06076AEE8A4623ADB47DC1 /* NetflixSans-Medium.ttf */,
+				0FC63476007C43A68F122457 /* NetflixSans-Regular.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -342,6 +357,8 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				0EB34E851F754157BA6EF747 /* NetflixSans-Medium.ttf in Resources */,
+				6864C35F290A44CBBFEDFABB /* NetflixSans-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
