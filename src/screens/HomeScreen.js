@@ -1,10 +1,12 @@
 import React from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, ScrollView } from 'react-native';
 
 import MovieCategory from './../components/MovieCategory';
-
-import * as Colors from './../constants/colors';
 import PaimonText from '../components/PaimonText';
+
+import Movie from './../models/Movie';
+import * as Colors from './../constants/colors';
+
 
 const listRecent = [
     { id: 0, imageUrl: "https://images-na.ssl-images-amazon.com/images/I/615RWFNlXDL._AC_SY741_.jpg" },
@@ -23,15 +25,25 @@ const listMine = [
     { id: 0, imageUrl: "https://ae01.alicdn.com/kf/HTB1h5pCNXXXXXXiaXXXq6xXFXXX9.jpg" }
 ]
 
+function TempGetMovies(movies) {
+    return movies.map((m) => new Movie(m.id, m.imageUrl));
+}
+
 const HomeScreen = (props) => {
+    const recentMovies = TempGetMovies(listRecent);
+    const myMovies = TempGetMovies(listMine);
+
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
-                <Image style={styles.headerImage} source={require('./../assets/images/paimon_logo_circle.png')}/>
-                <PaimonText type="header2" style={styles.textPaimonTV}>Paimon TV</PaimonText>
+            <View style={styles.sidebar}>
+                <Image style={styles.sidebarLogo} source={require('./../assets/images/paimon_logo_circle.png')}/>
+                <PaimonText type="header" style={styles.sidebarText}>TV</PaimonText>
             </View>
-            <MovieCategory title="Danh sách tiếp tục xem" list={listRecent}/>
-            <MovieCategory title="Danh sách của tôi" list={listMine}/>
+            <ScrollView style={styles.movieCategories}>
+                <MovieCategory title="Danh sách tiếp tục xem" list={recentMovies}/>
+                <MovieCategory title="Danh sách của tôi" list={myMovies}/>
+                <MovieCategory title="Hiện đang thịnh hành" list={myMovies}/>
+            </ScrollView>
         </View>
     );
 }
@@ -40,25 +52,27 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: Colors.PRIMARY,
         flex: 1,
-        paddingTop: 20,
-        paddingLeft: 20
+        flexDirection: 'row'
     },
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        marginBottom: 10
+    sidebar: {
+        width: '5%',
+        backgroundColor: Colors.ACCENT,
+        borderRightWidth: 2,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
-    headerImage: {
+    sidebarLogo: {
         resizeMode: 'stretch',
-        height: 24,
-        width: 24,
-        marginRight: 5
+        height: 38,
+        width: 38
     },
-    textPaimonTV: {
-        color: Colors.ACCENT,
-        fontSize: 18,
-    }
+    sidebarText: {
+        fontSize: 20
+    },
+    movieCategories: {
+        paddingTop: 20
+    },
 });
 
 export default HomeScreen;

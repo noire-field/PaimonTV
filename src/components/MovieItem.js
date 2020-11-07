@@ -3,28 +3,45 @@ import { View, StyleSheet, Image } from 'react-native';
 import * as Colors from './../constants/colors';
 
 const MovieItem = (props) => {
-    console.log(props);
     return (
         <View style={styles.container}>
             <Image style={styles.image} source={{ uri: props.image }}/>
+            <View style={[styles.wrapper, props.selected ? styles.wrapperSelected : styles.wrapperUnselected]}></View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        marginRight: 10,
+        marginLeft: 10,
         height: 200,
         width: 135,
         elevation: 1,
+        position: 'relative'
+    },
+    wrapper: {
+        position: 'absolute',
+        height: '100%',
+        width: '100%',
+        top: 0,
+        left: 0
+    },
+    wrapperUnselected: {
         borderBottomColor: Colors.ACCENT,
-        borderBottomWidth: 2
+        borderBottomWidth: 3
+    },
+    wrapperSelected: {
+        borderColor: Colors.WHITE,
+        borderWidth: 3
     },
     image: {
+        position: 'absolute',
         resizeMode: 'stretch',
         height: '100%',
-        width: '100%'
+        width: '100%',
+        top: 0,
+        left: 0
     }
 })
 
-export default MovieItem;
+export default React.memo(MovieItem);

@@ -1,11 +1,34 @@
-import React from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 
 import MovieItem from './MovieItem';
 
 const MovieList = (props) => {
+    console.log("Movie List Render "+props.title);
+    const [selected, setSelected] = useState(-1);
+
+    const onMovieFocus = (index, movie) => {
+        setSelected(index);
+    }
+
+    const onMovieBlur = (index, movie) => {
+        setSelected(-1);
+    }
+
+    const onMoviePress = (index, movie) => {
+        console.log("Selected " +movie.id);
+    }
+
     const renderItem = (itemData) => {
-        return <MovieItem image={itemData.item.imageUrl}/>
+        return (
+            <TouchableOpacity
+                onFocus={() => onMovieFocus(itemData.index, itemData.item)}
+                onBlur={() => onMovieBlur(itemData.index, itemData.item)}
+                onPress={() => onMoviePress(itemData.index, itemData.item)}
+            >
+                <MovieItem id={itemData.index} image={itemData.item.thumbnail} selected={selected == itemData.index ? true : false}/>
+            </TouchableOpacity>
+        );
     }
 
     return (
@@ -24,4 +47,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default MovieList;
+export default React.memo(MovieList);

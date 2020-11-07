@@ -8,7 +8,7 @@ const MovieCategory = (props) => {
     return (
         <View style={styles.container}>
             <PaimonText type="header" style={styles.headerText}>{props.title}</PaimonText>
-            <MovieList list={props.list}/>
+            <MovieList title={props.title} list={props.list}/>
         </View>
     )
 }
@@ -18,8 +18,9 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
     headerText: {
-        marginBottom: 5
+        marginBottom: 5,
+        marginLeft: 10
     }
 })
 
-export default MovieCategory;
+export default React.memo(MovieCategory);
