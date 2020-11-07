@@ -150,6 +150,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            storeFile file('paimontv.keystore')
+            storePassword 'paimontv'
+            keyAlias 'paimontv'
+            keyPassword 'paimontv'
+        }
     }
     buildTypes {
         debug {
