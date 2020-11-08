@@ -5,7 +5,7 @@ import * as Colors from './../constants/colors';
 const SplashScreen = (props) => {
     return (
         <View style={styles.container}>
-            <Image style={styles.splashImage} source={require('./../assets/images/splash_paimon.jpg')}/>
+            <Image style={styles.splashImage} source={require('./../assets/images/splash_paimon2.png')}/>
             <ActivityIndicator style={styles.activityIndicator} size="large" color={Colors.ACCENT} />
         </View>
     );
@@ -14,7 +14,7 @@ const SplashScreen = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'white',
+        backgroundColor: '#d1cbbd',
         justifyContent: 'center',
         alignItems: 'center'
     },

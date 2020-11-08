@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, Image, ScrollView } from 'react-native';
+import { View, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import MovieCategory from './../components/MovieCategory';
 import PaimonText from '../components/PaimonText';
@@ -36,8 +37,11 @@ const HomeScreen = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.sidebar}>
-                <Image style={styles.sidebarLogo} source={require('./../assets/images/paimon_logo_circle.png')}/>
-                <PaimonText type="header" style={styles.sidebarText}>TV</PaimonText>
+                <Image style={[styles.sidebarLogo]} source={require('./../assets/images/paimon_logo_circle.png')}/>
+                <View>
+                    <TouchableOpacity><FontAwesome5 style={styles.sidebarIcon} name='home' size={24} color="white"/></TouchableOpacity>
+                </View>
+                <View></View>
             </View>
             <ScrollView style={styles.movieCategories}>
                 <MovieCategory title="Danh sách tiếp tục xem" list={recentMovies}/>
@@ -55,18 +59,21 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     sidebar: {
+        backgroundColor: 'rgb(5,5,5)',
         width: '5%',
-        backgroundColor: Colors.ACCENT,
-        borderRightWidth: 2,
         flexDirection: 'column',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center'
     },
     sidebarLogo: {
         resizeMode: 'stretch',
         height: 38,
-        width: 38
+        width: 38,
+        marginTop: 15
     },
+    sidebarIcon: {
+        marginBottom: 10
+    }, 
     sidebarText: {
         fontSize: 20
     },
