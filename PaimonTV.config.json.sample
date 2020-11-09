@@ -1,0 +1,6 @@
+{
+    "FIREBASE": {
+        "URL": "https://someurl.firebaseio.com",
+        "USER": "someone"
+    }
+}
