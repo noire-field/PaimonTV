@@ -7,11 +7,14 @@ import HomeScreen from './HomeScreen';
 import * as Colors from './../constants/colors';
 import { sharedScreenOptions } from './../navigation/navigation.config';
 
+//import WatchScreen from './WatchScreen';
+
 const Stack = createStackNavigator();
 
 const PaimonContainer = (props) => {
     return (
         <View style={styles.container}>
+            {/* <WatchScreen/> */}
             <Stack.Navigator headerMode="none" screenOptions={{ ...sharedScreenOptions }} initialRouteName="HomeScreen">
                 <Stack.Screen name="HomeScreen" component={HomeScreen}/>
             </Stack.Navigator>

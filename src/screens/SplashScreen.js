@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { View, StyleSheet, Image, ActivityIndicator, Button, Alert , Text} from 'react-native';
 
 import Logger from './../utils/logger';
@@ -9,6 +10,7 @@ import { appSetInitLoaded } from './../store/actions/app.action';
 
 const SplashScreen = (props) => {
     const [loadState, setLoadState] = useState(0); // 0 - Nothing / 1 - Loading / 2 - Success / 3 - Error
+    const dispatch = useDispatch();
 
     Logger.Debug(`[SplashScreen] Render (State: ${loadState})`);
 
@@ -19,6 +21,7 @@ const SplashScreen = (props) => {
 
                 axios.get('/movies.json').then(({ data }) => {
                     console.log(data);
+                    dispatch(appSetInitLoaded(true));
                 }).catch((error) => {
                     Logger.Error(`[SplashScreen] Unable to fetch server data`, error);
 
