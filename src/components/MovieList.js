@@ -16,7 +16,7 @@ const MovieList = (props) => {
     }
 
     const onMoviePress = (index, movie) => {
-        console.log("Selected " +movie.id);
+        console.log("Selected " +movie.movieId);
     }
 
     const renderItem = (itemData) => {
@@ -33,7 +33,7 @@ const MovieList = (props) => {
 
     return (
         <View style={styles.container}>
-            <FlatList contentContainerStyle={styles.list} data={props.list} renderItem={renderItem} keyExtractor={(item) => item.id.toString()} horizontal={true}/>
+            <FlatList contentContainerStyle={styles.list} data={props.list} renderItem={renderItem} keyExtractor={(item) => item.movieId.toString()} horizontal={true}/>
         </View>
     )
 }

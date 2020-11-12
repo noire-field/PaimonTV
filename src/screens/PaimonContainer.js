@@ -12,6 +12,7 @@ import { sharedScreenOptions } from './../navigation/navigation.config';
 const Stack = createStackNavigator();
 
 const PaimonContainer = (props) => {
+    
     return (
         <View style={styles.container}>
             {/* <WatchScreen/> */}

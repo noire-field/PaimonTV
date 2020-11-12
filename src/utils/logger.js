@@ -1,5 +1,6 @@
 module.exports = {
-    Debug
+    Debug,
+    Error
 };
 
 function Debug(message) {

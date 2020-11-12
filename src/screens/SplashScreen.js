@@ -7,6 +7,8 @@ import axios from './../utils/axios';
 
 import * as Colors from './../constants/colors';
 import { appSetInitLoaded } from './../store/actions/app.action';
+import { movieSetMovies, movieSetCategories, movieSetMyList } from './../store/actions/movie.action';
+import { MakeCategories, MakeMyList } from './../utils/movie';
 
 const SplashScreen = (props) => {
     const [loadState, setLoadState] = useState(0); // 0 - Nothing / 1 - Loading / 2 - Success / 3 - Error
@@ -19,8 +21,13 @@ const SplashScreen = (props) => {
             case 1: 
                 Logger.Debug(`[SplashScreen] Loading server data...`);
 
-                axios.get('/movies.json').then(({ data }) => {
-                    console.log(data);
+                axios.get('/.json').then(({ data }) => {
+                    dispatch(movieSetMovies(data.movies));
+                    dispatch(movieSetCategories(MakeCategories(data.series, data.movies)));
+                    dispatch(movieSetMyList(MakeMyList(data.myList, data.movies), data.myList.sortNumber));
+    
+                    Logger.Debug(`[SplashScreen] Data is loaded.`);
+
                     dispatch(appSetInitLoaded(true));
                 }).catch((error) => {
                     Logger.Error(`[SplashScreen] Unable to fetch server data`, error);
