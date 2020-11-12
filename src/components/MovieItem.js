@@ -5,7 +5,7 @@ import * as Colors from './../constants/colors';
 const MovieItem = (props) => {
     return (
         <View style={styles.container}>
-            <Image style={styles.image} source={{ uri: props.image }}/>
+            <Image style={styles.image} source={{ uri: props.image }} onError={(error) => console.log(error.nativeEvent.error)}/>
             <View style={[styles.wrapper, props.selected ? styles.wrapperSelected : styles.wrapperUnselected]}></View>
         </View>
     )

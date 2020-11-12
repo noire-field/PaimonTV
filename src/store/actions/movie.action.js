@@ -1,4 +1,4 @@
-import { MOVIE_SETMOVIES, MOVIE_SETCATEGORIES, MOVIE_SETMYLIST } from './../../constants/store';
+import { MOVIE_SETMOVIES, MOVIE_SETCATEGORIES, MOVIE_SETMYLIST, MOVIE_SETDETAIL } from './../../constants/store';
 
 export function movieSetMovies(movies) {
     return {
@@ -22,4 +22,11 @@ export function movieSetMyList(myList, totalSortNumber) {
             totalSortNumber
         }
     };
+}
+
+export function movieSetDetail(movie) {
+    return {
+        type: MOVIE_SETDETAIL,
+        movie
+    }
 }

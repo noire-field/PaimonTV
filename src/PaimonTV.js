@@ -2,12 +2,11 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack'
 
-import Logger from './utils/logger';
-
 import SplashScreen from './screens/SplashScreen';
 import PaimonContainer from './screens/PaimonContainer';
-
 import { sharedScreenOptions } from './navigation/navigation.config';
+
+import Logger from './utils/logger';
 
 const Stack = createStackNavigator();
 

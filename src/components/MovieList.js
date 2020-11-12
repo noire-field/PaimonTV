@@ -16,7 +16,7 @@ const MovieList = (props) => {
     }
 
     const onMoviePress = (index, movie) => {
-        console.log("Selected " +movie.movieId);
+        props.onMovieSelect(movie.movieId);
     }
 
     const renderItem = (itemData) => {

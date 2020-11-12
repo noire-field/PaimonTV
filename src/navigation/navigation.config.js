@@ -1,3 +1,5 @@
+import * as Colors from './../constants/colors';
+
 export const sharedScreenOptions = {
     gestureEnabled: false,
     transitionSpec: {
@@ -17,5 +19,8 @@ export const sharedScreenOptions = {
                 opacity: current.progress,
             }
         };
+    },
+    cardStyle: {
+        backgroundColor: Colors.PRIMARY
     }
 };

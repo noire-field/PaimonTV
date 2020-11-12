@@ -1,10 +1,11 @@
-import { MOVIE_SETMOVIES, MOVIE_SETCATEGORIES, MOVIE_SETMYLIST } from '../../constants/store';
+import { MOVIE_SETMOVIES, MOVIE_SETCATEGORIES, MOVIE_SETMYLIST, MOVIE_SETDETAIL } from '../../constants/store';
 
 const initState = {
     movies: [],
     myList: [],
     myListSortNumber: 0,
-    categories: []
+    categories: [],
+    detail: null
 };
 
 export default function(state = initState, action) {
@@ -15,6 +16,8 @@ export default function(state = initState, action) {
             return { ...state, categories: action.categories };
         case MOVIE_SETMYLIST:
             return { ...state, myList: action.myList.list, myListSortNumber: action.myList.totalSortNumber };
+        case MOVIE_SETDETAIL: 
+            return { ...state, detail: action.movie };
     }
 
     return state;
