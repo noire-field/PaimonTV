@@ -67,3 +67,16 @@ export function MakeMyList(list, movies) {
         return b.sortNumber - a.sortNumber;
     })
 }
+
+export function EpisodeObjectToArray(objList) {
+    var list = [];
+
+    for(var key in objList) {
+        list.push({
+            id: key,
+            ...objList[key]
+        });
+    }
+
+    return list;
+}
