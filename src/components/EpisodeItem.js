@@ -1,18 +1,22 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 import PaimonText from './PaimonText';
 import * as Colors from './../constants/colors';
 
+import { DurationSecondToText } from './../utils/movie';
+
 const EpisodeItem = (props) => {
+    var remainDuration = DurationSecondToText(props.duration - props.progress);
+    var durationProgress = Math.round((props.progress / props.duration) * 100);
 
     return (
         <View style={styles.container}>
             <View style={[styles.wrapper, props.selected ? styles.wrapperSelected : styles.wrapperUnselected]}>
                 <PaimonText>{props.title}</PaimonText>
-                <PaimonText>45:32</PaimonText>
+                <PaimonText>{durationProgress >= 100 ? '--:--' : remainDuration}</PaimonText>
             </View>
-            <View style={{ ...styles.progressBar, width: `${props.progress}%` }}></View>
+            <View style={{ ...styles.progressBar, width: `${durationProgress}%` }}></View>
         </View>
     )
 }
@@ -21,7 +25,7 @@ const styles = StyleSheet.create({
     container: {
         position: 'relative',
         height: 30,
-        marginVertical: 5
+        marginVertical: 5,
     },
     wrapper: {
         position: 'absolute',
@@ -35,7 +39,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
 
-        borderWidth: 0.5
+        borderWidth: 0.5,
+        elevation: 1
     },
     wrapperUnselected: {
         borderColor: 'rgb(100,100,100)',
@@ -50,7 +55,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         height: 2,
-        backgroundColor: Colors.ACCENT
+        backgroundColor: Colors.ACCENT_DARKER
     }
 });
 

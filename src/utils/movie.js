@@ -80,3 +80,24 @@ export function EpisodeObjectToArray(objList) {
 
     return list;
 }
+
+export function PadTimeText(num, size = 2) {
+    num = num.toString();
+    while (num.length < size) num = "0" + num;
+    return num;
+}
+
+export function DurationSecondToText(duration) {
+    if(duration >= 3600) {
+        var hour = PadTimeText(Math.floor(duration / 3600));
+        var remainSecond = Math.floor(duration % 3600);
+        var minute = PadTimeText(Math.floor(remainSecond / 60));
+        remainSecond = PadTimeText(remainSecond % 60);
+
+        var text = `${hour}:${minute}:${remainSecond}`;
+    } else {
+        var text = `${PadTimeText(Math.floor(duration / 60))}:${PadTimeText(duration % 60)}`;
+    }
+
+    return text;
+}

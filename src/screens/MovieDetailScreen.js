@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { View, StyleSheet, Button, Image, FlatList, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Button, Image, FlatList, TouchableOpacity, TVEventHandler } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
 import PaimonText from './../components/PaimonText';
 import EpisodeItem from './../components/EpisodeItem';
@@ -11,39 +12,46 @@ import { EpisodeObjectToArray } from './../utils/movie';
 
 const sampleData = {
     ep1: {
-        progress: 100,
+        progress: 8196,
         title: "Episode 1",
-        url: "http://downloads.pvp.world/noirefield/starwars/Star.Wars.Episode.II.Attack.of.the.Clones.2002.mp4"
+        url: "http://downloads.pvp.world/noirefield/starwars/Star.Wars.Episode.II.Attack.of.the.Clones.2002.mp4",
+        duration: 8196
     },
     ep2: {
-        progress: 100,
+        progress: 7216,
         title: "Episode 2",
-        url: "http://downloads.pvp.world/noirefield/starwars/Star.Wars.Episode.II.Attack.of.the.Clones.2002.mp4"
+        url: "http://downloads.pvp.world/noirefield/starwars/Star.Wars.Episode.II.Attack.of.the.Clones.2002.mp4",
+        duration: 7216
     },
     ep3: {
-        progress: 30,
+        progress: 3546,
         title: "Episode 3",
-        url: "http://downloads.pvp.world/noirefield/starwars/Star.Wars.Episode.II.Attack.of.the.Clones.2002.mp4"
+        url: "http://downloads.pvp.world/noirefield/starwars/Star.Wars.Episode.II.Attack.of.the.Clones.2002.mp4",
+        duration: 8196
     },
     ep4: {
         progress: 0,
         title: "Episode 4",
-        url: "http://downloads.pvp.world/noirefield/starwars/Star.Wars.Episode.II.Attack.of.the.Clones.2002.mp4"
+        url: "http://downloads.pvp.world/noirefield/starwars/Star.Wars.Episode.II.Attack.of.the.Clones.2002.mp4",
+        duration: 7563
     },
     ep5: {
         progress: 0,
         title: "Episode 5",
-        url: "http://downloads.pvp.world/noirefield/starwars/Star.Wars.Episode.II.Attack.of.the.Clones.2002.mp4"
+        url: "http://downloads.pvp.world/noirefield/starwars/Star.Wars.Episode.II.Attack.of.the.Clones.2002.mp4",
+        duration: 6784
     },
     ep6: {
         progress: 0,
         title: "Episode 6",
-        url: "http://downloads.pvp.world/noirefield/starwars/Star.Wars.Episode.II.Attack.of.the.Clones.2002.mp4"
+        url: "http://downloads.pvp.world/noirefield/starwars/Star.Wars.Episode.II.Attack.of.the.Clones.2002.mp4",
+        duration: 7912
     },
     ep7: {
         progress: 0,
         title: "Episode 7",
-        url: "http://downloads.pvp.world/noirefield/starwars/Star.Wars.Episode.II.Attack.of.the.Clones.2002.mp4"
+        url: "http://downloads.pvp.world/noirefield/starwars/Star.Wars.Episode.II.Attack.of.the.Clones.2002.mp4",
+        duration: 6269
     }
 }
 
@@ -52,13 +60,18 @@ const MovieDetailScreen = (props) => {
 
     const [selected, setSelected] = useState(-1);
 
-    const onMovieFocus = (index, movie) => { setSelected(index); }
+    const refWatchButton = useRef(null);
 
-    const onMovieBlur = (index, movie) => { setSelected(-1); }
-
+    const onEpisodeFocus = (index,) => { setSelected(index); }
+    const onEpisodeBlur = () => { setSelected(-2); }
     const onEpisodePress = (index, movie) => {
         
     }
+
+    useEffect(() => {
+        if(refWatchButton)
+            refWatchButton.current.focus();
+    }, []);
 
     const detail = useSelector(state => state.movie.detail);
     const numOfEp = Object.keys(detail.videos).length;
@@ -66,19 +79,16 @@ const MovieDetailScreen = (props) => {
     const renderEpisodeItem = ({ index, item }) => {
         return (
             <TouchableOpacity
-                onFocus={() => onMovieFocus(index, item)}
-                onBlur={() => onMovieBlur(index, item)}
+                onFocus={() => onEpisodeFocus(index, item)}
+                onBlur={() => onEpisodeBlur(index, item)}
                 onPress={() => onEpisodePress(index, item)}
             >
-                <EpisodeItem key={item.id} title={item.title} progress={item.progress} selected={selected == index ? true : false}/>
+                <EpisodeItem key={item.id} title={item.title} duration={item.duration} progress={item.progress} selected={selected == index ? true : false}/>
             </TouchableOpacity>
         );
     };
 
-    console.log(detail);
-
     const episodeList = EpisodeObjectToArray(sampleData);
-    console.log(episodeList);
 
     return (
         <View style={styles.container}>
@@ -97,8 +107,25 @@ const MovieDetailScreen = (props) => {
                             <PaimonText style={styles.movieNumOfEp}>{numOfEp} Tập</PaimonText>
                         </View>
                         <View style={styles.buttons}>
-                            <View style={styles.watchButton}><Button title="Xem phim" color={Colors.ACCENT}/></View>
-                            <View><Button title="Thêm vào danh sách"/></View>
+                            <View style={styles.watchButton}>
+                                <TouchableOpacity
+                                    onFocus={() => onEpisodeFocus(-2, null)}
+                                    onBlur={() => onEpisodeBlur(-2, null)}
+                                    onPress={() => onEpisodePress(-2, null)}
+                                    ref={refWatchButton}
+                                >
+                                    <Button title="Xem phim" color={selected == -2 ? Colors.ACCENT_DARKER : Colors.ACCENT}/>
+                                </TouchableOpacity>
+                            </View>
+                            <View>
+                                <TouchableOpacity
+                                    onFocus={() => onEpisodeFocus(-1, null)}
+                                    onBlur={() => onEpisodeBlur(-1, null)}
+                                    onPress={() => onEpisodePress(-1, null)}
+                                >
+                                    <Button title="Thêm vào danh sách" color={selected == -1 ? Colors.BLUE_DARKER : Colors.BLUE}/>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                         <PaimonText type="header">Danh sách tập</PaimonText>
                         <View style={styles.episodeListWrapper}>

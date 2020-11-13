@@ -1,6 +1,7 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, StyleSheet, ScrollView } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
 import MovieCategory from './../components/MovieCategory';
 import Sidebar from './../components/Sidebar';
@@ -19,7 +20,7 @@ const HomeScreen = (props) => {
 
     const onMovieSelect = useCallback((movieId) => {
         dispatch(movieSetDetail(movies[movieId]));
-        props.navigation.navigate('MovieDetailScreen');
+        props.navigation.replace('MovieDetailScreen');
     }, [dispatch]);
 
     const renderMyList = <MovieCategory key={`-1-mylist`} title='Danh sách của tôi' list={myList} onMovieSelect={onMovieSelect}/>

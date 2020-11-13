@@ -3,21 +3,16 @@ import { View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 
 import MovieItem from './MovieItem';
 
+import Logger from './../utils/logger';
+
+
 const MovieList = (props) => {
-    console.log("Movie List Render "+props.title);
+    Logger.Debug("[MovieList] Render "+props.title);
     const [selected, setSelected] = useState(-1);
 
-    const onMovieFocus = (index, movie) => {
-        setSelected(index);
-    }
-
-    const onMovieBlur = (index, movie) => {
-        setSelected(-1);
-    }
-
-    const onMoviePress = (index, movie) => {
-        props.onMovieSelect(movie.movieId);
-    }
+    const onMovieFocus = (index, movie) => { setSelected(index); }
+    const onMovieBlur = (index, movie) => { setSelected(-1); }
+    const onMoviePress = (index, movie) => { props.onMovieSelect(movie.movieId); }
 
     const renderItem = (itemData) => {
         return (
