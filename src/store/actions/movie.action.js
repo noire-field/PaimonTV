@@ -30,3 +30,10 @@ export function movieSetDetail(movie) {
         movie
     }
 }
+
+export function movieCheckToMyList(movieId, action) {
+    return (dispatch, getState) => {
+
+    }
+}
+

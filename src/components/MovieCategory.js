@@ -8,7 +8,7 @@ const MovieCategory = (props) => {
     return (
         <View style={styles.container}>
             <PaimonText type="header" style={styles.headerText}>{props.title}</PaimonText>
-            <MovieList title={props.title} list={props.list} onMovieSelect={props.onMovieSelect}/>
+            <MovieList index={props.index} title={props.title} list={props.list} onMovieSelect={props.onMovieSelect}/>
         </View>
     )
 }

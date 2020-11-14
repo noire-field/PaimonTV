@@ -8,7 +8,7 @@ const Sidebar = (props) => {
         <View style={[props.style, styles.sidebar]}>
             <Image style={[styles.sidebarLogo]} source={require('./../assets/images/paimon_logo_circle.png')}/>
             <View>
-                <TouchableOpacity><FontAwesome5 style={styles.sidebarIcon} name='home' size={24} color="white"/></TouchableOpacity>
+                <FontAwesome5 style={styles.sidebarIcon} name='home' size={24} color="white"/>
             </View>
             <View></View>
         </View>

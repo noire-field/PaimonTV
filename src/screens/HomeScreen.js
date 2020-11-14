@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, StyleSheet, ScrollView } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
 
 import MovieCategory from './../components/MovieCategory';
 import Sidebar from './../components/Sidebar';
@@ -19,12 +18,12 @@ const HomeScreen = (props) => {
     const dispatch = useDispatch();
 
     const onMovieSelect = useCallback((movieId) => {
-        dispatch(movieSetDetail(movies[movieId]));
+        dispatch(movieSetDetail({id: movieId, ...movies[movieId]}));
         props.navigation.replace('MovieDetailScreen');
     }, [dispatch]);
 
-    const renderMyList = <MovieCategory key={`-1-mylist`} title='Danh sách của tôi' list={myList} onMovieSelect={onMovieSelect}/>
-    const renderCategories = categories.map((cat, index) => <MovieCategory key={`${index}-${cat.title}`} title={cat.title} list={cat.movies} onMovieSelect={onMovieSelect}/>);
+    const renderMyList = <MovieCategory key={`-1-mylist`} index={-1} title='Danh sách của tôi' list={myList} onMovieSelect={onMovieSelect}/>
+    const renderCategories = categories.map((cat, index) => <MovieCategory key={`${index}-${cat.title}`} index={index} title={cat.title} list={cat.movies} onMovieSelect={onMovieSelect}/>);
 
     return (
         <View style={styles.container}>

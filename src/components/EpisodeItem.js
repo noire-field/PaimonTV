@@ -39,8 +39,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
 
-        borderWidth: 0.5,
-        elevation: 1
+        borderWidth: 0.5
     },
     wrapperUnselected: {
         borderColor: 'rgb(100,100,100)',
@@ -55,7 +54,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         height: 2,
-        backgroundColor: Colors.ACCENT_DARKER
+        backgroundColor: Colors.ACCENT
     }
 });
 

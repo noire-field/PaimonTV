@@ -101,3 +101,13 @@ export function DurationSecondToText(duration) {
 
     return text;
 }
+
+export function FindMovieInMyList(movieId, list) {
+    for(var i = 0; i < list.length; i++) {
+        let movie = list[i];
+        if(movie.movieId == movieId)
+            return movie.sortNumber;
+    }
+
+    return -1;
+}

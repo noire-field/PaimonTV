@@ -1,15 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { View, StyleSheet, Button, Image, FlatList, TouchableOpacity, TVEventHandler } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
+import { View, StyleSheet, Image, FlatList, TouchableOpacity, BackHandler } from 'react-native';
 
 import PaimonText from './../components/PaimonText';
 import EpisodeItem from './../components/EpisodeItem';
+import PaimonButton from './../components/PaimonButton';
+
+import { movieCheckToMyList } from './../store/actions/movie.action';
 
 import * as Colors from './../constants/colors';
 import Logger from './../utils/logger';
-import { EpisodeObjectToArray } from './../utils/movie';
-
+import { EpisodeObjectToArray, FindMovieInMyList } from './../utils/movie';
+/*
 const sampleData = {
     ep1: {
         progress: 8196,
@@ -53,27 +55,53 @@ const sampleData = {
         url: "http://downloads.pvp.world/noirefield/starwars/Star.Wars.Episode.II.Attack.of.the.Clones.2002.mp4",
         duration: 6269
     }
-}
+}*/
 
 const MovieDetailScreen = (props) => {
     Logger.Debug(`[MovieDetailScreen] Render`);
 
-    const [selected, setSelected] = useState(-1);
-
+    const [selected, setSelected] = useState(-2);
     const refWatchButton = useRef(null);
 
+    const detail = useSelector(state => state.movie.detail);
+    const myList = useSelector(state => state.movie.myList);
+    const dispatch = useDispatch();
+
+    const movieInMyList = FindMovieInMyList(detail.id, myList);
+
     const onEpisodeFocus = (index,) => { setSelected(index); }
-    const onEpisodeBlur = () => { setSelected(-2); }
+    const onEpisodeBlur = () => { setSelected(-3); }
     const onEpisodePress = (index, movie) => {
-        
+        switch(index) {
+            case -2: // Watch Button
+
+                break;
+            case -1: // Add to My List or Delete from My List
+
+                break;
+            default: // Episode ID
+                if(movieInMyList == -1) dispatch(movieCheckToMyList(detail.id, 1)); // 1 for adding
+                else  dispatch(movieCheckToMyList(detail.id, -1)); // -1 for removing
+
+                break;
+        }
     }
 
     useEffect(() => {
-        if(refWatchButton)
-            refWatchButton.current.focus();
+        // Forcefully focus
+        if(refWatchButton) refWatchButton.current.focus();
+
+        const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+            props.navigation.replace('HomeScreen');
+            return true;
+        });
+
+        return () => {
+            backHandler.remove();
+        }
     }, []);
 
-    const detail = useSelector(state => state.movie.detail);
+    
     const numOfEp = Object.keys(detail.videos).length;
 
     const renderEpisodeItem = ({ index, item }) => {
@@ -88,7 +116,7 @@ const MovieDetailScreen = (props) => {
         );
     };
 
-    const episodeList = EpisodeObjectToArray(sampleData);
+    const episodeList = EpisodeObjectToArray(detail.videos);
 
     return (
         <View style={styles.container}>
@@ -114,7 +142,7 @@ const MovieDetailScreen = (props) => {
                                     onPress={() => onEpisodePress(-2, null)}
                                     ref={refWatchButton}
                                 >
-                                    <Button title="Xem phim" color={selected == -2 ? Colors.ACCENT_DARKER : Colors.ACCENT}/>
+                                    <PaimonButton title="Xem phim" color={Colors.ACCENT} selected={selected == -2}/>
                                 </TouchableOpacity>
                             </View>
                             <View>
@@ -123,7 +151,7 @@ const MovieDetailScreen = (props) => {
                                     onBlur={() => onEpisodeBlur(-1, null)}
                                     onPress={() => onEpisodePress(-1, null)}
                                 >
-                                    <Button title="Thêm vào danh sách" color={selected == -1 ? Colors.BLUE_DARKER : Colors.BLUE}/>
+                                    <PaimonButton title={movieInMyList == -1 ? 'Thêm vào danh sách' : 'Xóa khỏi danh sách'} color={Colors.BLUE} selected={selected == -1}/>
                                 </TouchableOpacity>
                             </View>
                         </View>
