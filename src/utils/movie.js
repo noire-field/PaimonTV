@@ -111,3 +111,9 @@ export function FindMovieInMyList(movieId, list) {
 
     return -1;
 }
+
+export function SortMyList(myList) {
+    return myList.sort((a, b) => {
+        return b.sortNumber - a.sortNumber;
+    })
+}

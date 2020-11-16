@@ -11,23 +11,9 @@ const WatchScreen = () => {
 		console.log(error);
     }
     
-    useEffect(() => {
-        const eventHandler = new TVEventHandler();
-        eventHandler.enable(this, function(cmp, evt) {
-            //console.log(evt.eventType);
-        });
-
-        
-
-        return () => {
-            eventHandler.disable();
-        }
-    });
-
-    
 	return (
 		<View style={styles.container}>
-			<Video source={{uri: "http://localhost/Star.Wars.Episode.I.The.Phantom.Menace.1999.ts"}}   // Can be a URL or a local file.
+			<Video source={{uri: "http://downloads.pvp.world/noirefield/starwars/Star.Wars.Episode.II.Attack.of.the.Clones.2002.mp4"}}   // Can be a URL or a local file.
 				ref={(ref) => {
 					console.log("Ref");
 				}}                                      // Store reference

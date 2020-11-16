@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, StyleSheet, ScrollView } from 'react-native';
 
@@ -8,6 +8,7 @@ import { movieSetDetail } from './../store/actions/movie.action';
 
 import * as Colors from './../constants/colors';
 import Logger from './../utils/logger';
+import { SortMyList } from './../utils/movie';
 
 const HomeScreen = (props) => {
     Logger.Debug(`[HomeScreen] Render`);
@@ -22,7 +23,7 @@ const HomeScreen = (props) => {
         props.navigation.replace('MovieDetailScreen');
     }, [dispatch]);
 
-    const renderMyList = <MovieCategory key={`-1-mylist`} index={-1} title='Danh sách của tôi' list={myList} onMovieSelect={onMovieSelect}/>
+    const renderMyList = <MovieCategory key={`-1-mylist`} index={-1} title='Danh sách của tôi' list={SortMyList(myList)} onMovieSelect={onMovieSelect}/>
     const renderCategories = categories.map((cat, index) => <MovieCategory key={`${index}-${cat.title}`} index={index} title={cat.title} list={cat.movies} onMovieSelect={onMovieSelect}/>);
 
     return (
