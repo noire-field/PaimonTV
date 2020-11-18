@@ -1,6 +1,6 @@
 import axios from './../../utils/axios';
 
-import { MOVIE_SETMOVIES, MOVIE_SETCATEGORIES, MOVIE_SETMYLIST, MOVIE_SETDETAIL } from './../../constants/store';
+import { MOVIE_SETMOVIES, MOVIE_SETCATEGORIES, MOVIE_SETMYLIST, MOVIE_SETDETAIL, MOVIE_SETWATCHEPISODE } from './../../constants/store';
 
 export function movieSetMovies(movies) {
     return {
@@ -30,6 +30,16 @@ export function movieSetDetail(movie) {
     return {
         type: MOVIE_SETDETAIL,
         movie
+    }
+}
+
+export function movieSetWatchEpisode(episode, startAt) {
+    return {
+        type: MOVIE_SETWATCHEPISODE,
+        data: {
+            episode,
+            startAt
+        }
     }
 }
 

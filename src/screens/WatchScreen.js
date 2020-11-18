@@ -1,72 +1,79 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import Video from 'react-native-video';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useSelector } from 'react-redux';
+import { View, Text, StyleSheet, BackHandler, Image } from 'react-native';
+
+import ScreenLoading from './../components/WatchScreen/ScreenLoading';
+import VideoPlayer from './../components/WatchScreen/VideoPlayer';
+
+import Logger from './../utils/logger';
 
 const WatchScreen = (props) => {
-    var video = null;
+    Logger.Debug(`[WatchScreen] Render`);
 
-	const onBuffer = (data) => {
-        console.log('On Buffer');
-        console.log(data);
-	}
-	const videoError = (error) => {
-		console.log("Error");
-		console.log(error);
-    }
-    const onProgress = (progress) => {
-        console.log("Progress");
-		console.log(progress);
-    }
-    const onSeek = (data) => {
-        console.log("Seek");
-        console.log(data);
-    }
-    const onLoad = (data) => {
-        console.log("On Load");
-        console.log(data);
+    // Back Button Handler
+    useEffect(() => {
+        const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+            props.navigation.replace('MovieDetailScreen');
+            return true;
+        });
 
-        console.log("Seek now!")
-        video.seek(4000);
+        return () => {
+            backHandler.remove();
+        }
+    }, []);
+
+    // State
+    const episode = useSelector(state => state.movie.watch.episode);
+
+    if(!episode) { // No Video Loaded? (Rare case, almost impossible)
+        props.navigation.replace('MovieDetailScreen');
+        return null;
     }
+
+    const [buffering, setBuffering] = useState(false);
+
+   
+
+    const onBufferStateChange = useCallback(({ isBuffering }) => {
+        setBuffering((buffering) => {
+            if(buffering != isBuffering)
+                return isBuffering;
+
+            return buffering;
+        });
+    })
+    
+    // <Image style={styles.image} source={{ uri: "https://s27514.pcdn.co/wp-content/uploads/2019/07/Titanic_Still.jpg.optimal.jpg" }}/>
     
 	return (
 		<View style={styles.container}>
-			<Video source={{uri: "http://node-55.vkool.info/videos/ji6eb7szzidb8dwt5spjnebjpy.mp4"}}   // Can be a URL or a local file.
-				ref={(ref) => {
-                    video = ref;
-                    console.log("Ref");
-                    console.log(ref);
-				}}                                      // Store reference
-				onBuffer={onBuffer}                // Callback when remote video is buffering
-                onError={videoError}               // Callback when video cannot be loaded
-                onProgress={onProgress}
-                onSeek={onSeek}
-                onLoad={onLoad}
-                style={styles.backgroundVideo}
-                bufferConfig={{
-                    minBufferMs: 10 * 1000,
-                    maxBufferMs: 60 * 1000,
-                    bufferForPlaybackMs: 10 * 1000,
-                    bufferForPlaybackAfterRebufferMs: 10 * 1000
-                }}
-                controls={true}
-                />
-		</View>
+            <VideoPlayer url={watch.episode.url} style={styles.fullscreen} onBuffer={onBufferStateChange}/>
+            <ScreenLoading show={buffering} style={styles.fullscreen}/>
+        </View>
 	);
 };
 
 const styles = StyleSheet.create({
-	container: {
-		position: 'relative',
-		flex: 1
-	},
-	backgroundVideo: {
-		position: 'absolute',
-		top: 0,
-		left: 0,
-		width: '100%',
-		height: '100%'
-	}
+    container: {
+        flex: 1,
+        backgroundColor: 'black',
+        position: 'relative'
+    },
+    fullscreen: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%'
+    },
+    image: {
+        resizeMode: 'cover',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%'
+    }
 });
 
 export default WatchScreen;

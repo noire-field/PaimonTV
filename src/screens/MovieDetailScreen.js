@@ -7,10 +7,11 @@ import EpisodeItem from './../components/EpisodeItem';
 import PaimonButton from './../components/PaimonButton';
 
 import { movieCheckToMyList } from './../store/actions/movie.action';
+import { watchSetEpisode } from './../store/actions/watch.action';
 
 import * as Colors from './../constants/colors';
 import Logger from './../utils/logger';
-import { EpisodeObjectToArray, FindMovieInMyList } from './../utils/movie';
+import { EpisodeObjectToArray, FindMovieInMyList, ScanMovieEpisodes, GetEpisodeCompletedRate } from './../utils/movie';
 
 const MovieDetailScreen = (props) => {
     Logger.Debug(`[MovieDetailScreen] Render`);
@@ -23,19 +24,28 @@ const MovieDetailScreen = (props) => {
     const dispatch = useDispatch();
 
     const movieInMyList = FindMovieInMyList(detail.id, myList);
+    const episodeList = EpisodeObjectToArray(detail.videos);
+    const numOfEp = Object.keys(detail.videos).length;
 
     const onEpisodeFocus = (index) => { setSelected(index); }
     const onEpisodeBlur = () => { setSelected(-3); }
-    const onEpisodePress = (index, movie) => {
+    const onEpisodePress = (index, episode) => {
+        var completedRate = GetEpisodeCompletedRate(episode);
+        var startAt = 0;
 
-    }
+        if(completedRate < 95)
+            startAt = episode.progress;
 
-    const onWatchMovie = () => {
+        dispatch(watchSetEpisode(episode, startAt));
         props.navigation.replace('WatchScreen');
     }
 
+    const onWatchMovie = () => {
+        var episodeIndex = ScanMovieEpisodes(episodeList)
+        onEpisodePress(episodeIndex, episodeList[episodeIndex]);
+    }
+
     const onCheckMovie = () => {
-        console.log("On Add Press");
         if(movieInMyList == -1) dispatch(movieCheckToMyList(detail.id, 1)); // 1 for adding
         else dispatch(movieCheckToMyList(detail.id, -1)); // -1 for removing
     };
@@ -54,9 +64,6 @@ const MovieDetailScreen = (props) => {
         }
     }, []);
 
-    
-    const numOfEp = Object.keys(detail.videos).length;
-
     const renderEpisodeItem = ({ index, item }) => {
         return (
             <TouchableOpacity
@@ -68,8 +75,6 @@ const MovieDetailScreen = (props) => {
             </TouchableOpacity>
         );
     };
-
-    const episodeList = EpisodeObjectToArray(detail.videos);
 
     return (
         <View style={styles.container}>
