@@ -22,7 +22,7 @@ const PaimonText = (props) => {
         ...props.style
     }
 
-    return <Text style={textStyles}>{props.children}</Text>
+    return <Text style={textStyles} numberOfLines={props.numberOfLines}>{props.children}</Text>
 }
 
 const styles = StyleSheet.create({

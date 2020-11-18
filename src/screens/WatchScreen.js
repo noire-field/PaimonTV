@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { View, StyleSheet, BackHandler } from 'react-native';
+import { View, StyleSheet, BackHandler, Image } from 'react-native';
 
 import ScreenLoading from './../components/WatchScreen/ScreenLoading';
 import VideoPlayer from './../components/WatchScreen/VideoPlayer';
+import VideoControl from './../components/WatchScreen/VideoControl';
 
 import Logger from './../utils/logger';
 
@@ -26,12 +27,13 @@ const WatchScreen = (props) => {
     const episode = useSelector(state => state.watch.episode);
     if(!episode) return null;
 
-    // <Image style={styles.image} source={{ uri: "https://s27514.pcdn.co/wp-content/uploads/2019/07/Titanic_Still.jpg.optimal.jpg" }}/>
-    
+    // 
+    // <VideoPlayer style={styles.fullscreen}/>
 	return (
 		<View style={styles.container}>
-            <VideoPlayer style={styles.fullscreen}/>
+            <Image style={styles.image} source={{ uri: "https://s27514.pcdn.co/wp-content/uploads/2019/07/Titanic_Still.jpg.optimal.jpg" }}/>
             <ScreenLoading style={styles.fullscreen}/>
+            <VideoControl/>
         </View>
 	);
 };
