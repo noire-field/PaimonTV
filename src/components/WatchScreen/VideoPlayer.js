@@ -5,7 +5,7 @@ import Video from 'react-native-video';
 
 import { watchSetBuffering } from './../../store/actions/watch.action';
 
-import Logger from './../utils/logger';
+import Logger from './../../utils/logger';
 
 const VideoPlayer = (props) => {
     Logger.Debug(`[VideoPlayer] Render`);
@@ -19,20 +19,20 @@ const VideoPlayer = (props) => {
     }
     
 	const videoError = (error) => {
-		//console.log("Error");
-		//console.log(error);
+		console.log("Error");
+		console.log(error);
     }
     const onProgress = (progress) => {
         //console.log("Progress");
 		//console.log(progress);
     }
     const onSeek = (data) => {
-        //console.log("Seek");
-        //console.log(data);
+        console.log("Seek");
+        console.log(data);
     }
     const onLoad = (data) => {
-        //console.log("On Load");
-        //console.log(data);
+        console.log("On Load");
+        console.log(data);
 
         //console.log("Seek now!")
         //video.seek(4000);

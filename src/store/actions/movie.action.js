@@ -33,16 +33,6 @@ export function movieSetDetail(movie) {
     }
 }
 
-export function movieSetWatchEpisode(episode, startAt) {
-    return {
-        type: MOVIE_SETWATCHEPISODE,
-        data: {
-            episode,
-            startAt
-        }
-    }
-}
-
 // Get some fucking delay pls (Only for TV)
 var allowChecking = true;
 var handlerAllowChecking = null;

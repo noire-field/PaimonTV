@@ -3,7 +3,9 @@ import { WATCH_SETEPISODE, WATCH_SETBUFFERING } from '../../constants/store';
 const initState = {
     episode: null,
     startAt: 0,
-    buffering: false
+    buffering: false,
+    videoRef: null,
+    videoLoaded: false
 };
 
 export default function(state = initState, action) {
