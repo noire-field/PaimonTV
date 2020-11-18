@@ -59,7 +59,7 @@ const VideoPlayer = (props) => {
                     bufferForPlaybackMs: 10 * 1000,
                     bufferForPlaybackAfterRebufferMs: 10 * 1000
                 }}
-                controls={true}
+               
                 
                 />
         </View>

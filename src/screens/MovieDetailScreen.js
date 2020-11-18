@@ -50,6 +50,7 @@ const MovieDetailScreen = (props) => {
         else dispatch(movieCheckToMyList(detail.id, -1)); // -1 for removing
     };
 
+    
     useEffect(() => {
         // Forcefully focus
         if(refWatchButton) refWatchButton.current.focus();
