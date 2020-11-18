@@ -1,4 +1,4 @@
-import { WATCH_SETEPISODE } from './../../constants/store';
+import { WATCH_SETEPISODE, WATCH_SETBUFFERING } from './../../constants/store';
 
 export function watchSetEpisode(episode, startAt) {
     return {
@@ -8,4 +8,11 @@ export function watchSetEpisode(episode, startAt) {
             startAt
         }
     };
+}
+
+export function watchSetBuffering(buffering) {
+    return {
+        type: WATCH_SETBUFFERING,
+        buffering
+    }
 }

@@ -30,25 +30,12 @@ const WatchScreen = (props) => {
         return null;
     }
 
-    const [buffering, setBuffering] = useState(false);
-
-   
-
-    const onBufferStateChange = useCallback(({ isBuffering }) => {
-        setBuffering((buffering) => {
-            if(buffering != isBuffering)
-                return isBuffering;
-
-            return buffering;
-        });
-    })
-    
     // <Image style={styles.image} source={{ uri: "https://s27514.pcdn.co/wp-content/uploads/2019/07/Titanic_Still.jpg.optimal.jpg" }}/>
     
 	return (
 		<View style={styles.container}>
-            <VideoPlayer url={watch.episode.url} style={styles.fullscreen} onBuffer={onBufferStateChange}/>
-            <ScreenLoading show={buffering} style={styles.fullscreen}/>
+            <VideoPlayer style={styles.fullscreen}/>
+            <ScreenLoading style={styles.fullscreen}/>
         </View>
 	);
 };

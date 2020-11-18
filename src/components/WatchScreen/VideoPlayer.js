@@ -1,12 +1,23 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { View, StyleSheet } from 'react-native';
 import Video from 'react-native-video';
+
+import { watchSetBuffering } from './../../store/actions/watch.action';
 
 import Logger from './../utils/logger';
 
 const VideoPlayer = (props) => {
     Logger.Debug(`[VideoPlayer] Render`);
 
+    const dispatch = useDispatch();
+
+    const videoUrl = useSelector(state => state.watch.episode.url);
+
+    const onBuffer = ({ isBuffering }) => {
+        dispatch(watchSetBuffering(isBuffering));
+    }
+    
 	const videoError = (error) => {
 		//console.log("Error");
 		//console.log(error);
@@ -30,13 +41,13 @@ const VideoPlayer = (props) => {
 
     return (
         <View style={[styles.container, props.style]}>
-            <Video source={{ uri: "http://downloads.pvp.world/noirefield/starwars/vKool.Star.Wars.Episode.I.The.Phantom.Menace.1999_720p.mp4" }}   // Can be a URL or a local file.
+            <Video source={{ uri: videoUrl }}   // Can be a URL or a local file.
                 ref={(ref) => {
                     video = ref;
                     //console.log("Ref");
                     //console.log(ref);
                 }}                                      // Store reference
-                onBuffer={props.onBuffer}                // Callback when remote video is buffering
+                onBuffer={onBuffer}                // Callback when remote video is buffering
                 onError={videoError}               // Callback when video cannot be loaded
                 onProgress={onProgress}
                 onSeek={onSeek}
