@@ -11,66 +11,84 @@ import Logger from './../../utils/logger';
 const VideoControl = (props) => {
     Logger.Debug(`[VideoControl] Render`);
 
-    const [visible, setVisible] = useState(false);
+    const controlFading = useRef(false);
+    const pressCount = useRef(0);
+    const fadeAnim = useRef(new Animated.Value(0))
+
+    const [controlShown, setControlShown] = useState(false);
     const [focusRow, setFocusRow] = useState(1);
     const [playing, setPlaying] = useState(false);
 
-    const fadeAnim = useRef(new Animated.Value(0))
-    const invisbleTimeoutHandler = useRef(null);
+    const movieTitle = useSelector(state => state.watch.movieTitle);
+    const episodeTitle = useSelector(state => state.watch.episode.title);
 
-    console.log(focusRow);
 
     const HideControl = () => {
+        if(controlFading.current || !controlShown) return;
+
+        controlFading.current = true;
         fadeAnim.current.setValue(1);
         Animated.timing(fadeAnim.current, {
             toValue: 0,
             duration: 250,
             useNativeDriver: true
-        }).start();
+        }).start(() => {
+            controlFading.current = false;
+        });
 
-        setVisible(false);
+        setControlShown(false);
     }
 
     const ShowControl = () => {
-        // fadeAnim.current.setValue(0); // Unnecessary?
+        if(controlFading.current || controlShown) return;
+
+        controlFading.current = true;
+
+        fadeAnim.current.setValue(0);
         Animated.timing(fadeAnim.current, {
             toValue: 1,
             duration: 100,
             useNativeDriver: true
-        }).start();
+        }).start(() => {
+            controlFading.current = false;
+        });
 
-        setVisible(true);
+        setControlShown(true);
     }
 
     const OnMoveHorizontal = (moveUp) => {
-        console.log("Visible : " +visible);
+        pressCount.current++
+        if(pressCount.current % 2 != 0)
+            return;
+
         ShowControl();
 
-        if(moveUp) {
-            console.log("Move Up");
-            setFocusRow(0);
-        } else {
-            console.log("Move Down");
-            setFocusRow(1);
-        }
+        if(moveUp) { setFocusRow(0); } 
+        else { setFocusRow(1); }
     }
 
     const OnSelect = () => {
+        pressCount.current++
+        if(pressCount.current % 2 != 0)
+            return;
+
         ShowControl();
 
-        if(focusRow == 1) {
-            console.log("WTF");
-            setPlaying(playing ? false: true);
-        }
+        //if(focusRow == 1) { // The Play/Pause button
+        
+
+         // Directional Pad double-click bug fix
+        setPlaying(playing ? false: true);
+        
+        //}
     }
 
-
     useEffect(() => {
-        if(visible) {
-            var handler = setTimeout(HideControl, 3000);
+        if(controlShown) {
+            var handler = setTimeout(HideControl, 1500);
             return () => { clearTimeout(handler); }
         }
-    }, [visible]);
+    });
 
     useEffect(() => {
         var eventHandler = new TVEventHandler();
@@ -83,7 +101,7 @@ const VideoControl = (props) => {
         });
 
         return () => { eventHandler.disable(); }
-    }, [])
+    })
 
     return (
         <View style={styles.container}>
@@ -95,7 +113,8 @@ const VideoControl = (props) => {
                     </View>
                     <View style={styles.buttons}>
                         <View style={styles.leftButtons}>
-                            <PaimonText style={styles.timeText} numberOfLines={1}>Star Wars: Episode II - Attack Of The Clones</PaimonText>
+                            <PaimonText style={styles.titleText} numberOfLines={1}>{movieTitle}</PaimonText>
+                            <PaimonText style={styles.episodeText} numberOfLines={1}>{episodeTitle}</PaimonText>
                         </View>
                         <View style={styles.centerButtons}>
                             <TouchableOpacity>

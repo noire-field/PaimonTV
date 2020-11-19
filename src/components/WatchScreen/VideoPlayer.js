@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, StyleSheet } from 'react-native';
 import Video from 'react-native-video';
 
-import { watchSetBuffering } from './../../store/actions/watch.action';
+import { watchSetBuffering, watchSetVideoRef, watchSetVideoLoaded } from './../../store/actions/watch.action';
 
 import Logger from './../../utils/logger';
 
@@ -11,8 +11,13 @@ const VideoPlayer = (props) => {
     Logger.Debug(`[VideoPlayer] Render`);
 
     const dispatch = useDispatch();
+    const videoRef = useRef(null);
 
     const videoUrl = useSelector(state => state.watch.episode.url);
+
+    const onVideoRef = (ref) => {
+        videoRef.current = ref;
+    }
 
     const onBuffer = ({ isBuffering }) => {
         dispatch(watchSetBuffering(isBuffering));
@@ -30,23 +35,14 @@ const VideoPlayer = (props) => {
         console.log("Seek");
         console.log(data);
     }
-    const onLoad = (data) => {
-        console.log("On Load");
-        console.log(data);
-
-        //console.log("Seek now!")
-        //video.seek(4000);
+    const onLoad = () => {
+        dispatch(watchSetVideoLoaded(true));
     }
-    
 
     return (
         <View style={[styles.container, props.style]}>
             <Video source={{ uri: videoUrl }}   // Can be a URL or a local file.
-                ref={(ref) => {
-                    video = ref;
-                    //console.log("Ref");
-                    //console.log(ref);
-                }}                                      // Store reference
+                ref={onVideoRef}                                      // Store reference
                 onBuffer={onBuffer}                // Callback when remote video is buffering
                 onError={videoError}               // Callback when video cannot be loaded
                 onProgress={onProgress}
@@ -59,8 +55,6 @@ const VideoPlayer = (props) => {
                     bufferForPlaybackMs: 10 * 1000,
                     bufferForPlaybackAfterRebufferMs: 10 * 1000
                 }}
-               
-                
                 />
         </View>
     );

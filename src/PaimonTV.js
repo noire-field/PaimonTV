@@ -27,3 +27,5 @@ const PaimonTV = (props) => {
 };
 
 export default PaimonTV;
+
+// adb shell su root date $(date +%m%d%H%M%Y.%S)

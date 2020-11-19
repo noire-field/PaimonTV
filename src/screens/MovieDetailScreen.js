@@ -36,7 +36,7 @@ const MovieDetailScreen = (props) => {
         if(completedRate < 95)
             startAt = episode.progress;
 
-        dispatch(watchSetEpisode(episode, startAt));
+        dispatch(watchSetEpisode(detail.title, episode, startAt));
         props.navigation.replace('WatchScreen');
     }
 
