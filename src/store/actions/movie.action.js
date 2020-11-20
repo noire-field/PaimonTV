@@ -1,6 +1,6 @@
 import axios from './../../utils/axios';
 
-import { MOVIE_SETMOVIES, MOVIE_SETCATEGORIES, MOVIE_SETMYLIST, MOVIE_SETDETAIL, MOVIE_SETWATCHEPISODE } from './../../constants/store';
+import { MOVIE_SETMOVIES, MOVIE_SETCATEGORIES, MOVIE_SETMYLIST, MOVIE_SETDETAIL, MOVIE_UPDATEEPISODEPROGRESS } from './../../constants/store';
 
 export function movieSetMovies(movies) {
     return {
@@ -112,8 +112,33 @@ export function movieCheckToMyList(movieId, action) {
     };
 }
 
-export function movieUpdateEpisodeProgress(movieId, episodeId, progress) {
+export function movieUpdateEpisodeProgress(progress) {
     return (dispatch, getState) => {
 
+        const state = getState();
+
+        var movieId = state.movie.detail.id;
+        var episodeId = state.watch.episode.id;
+        var currentProgress = state.watch.currentProgress;
+
+        if(currentProgress <= 0) return;
+
+        axios.patch(`/movies/${movieId}/videos/${episodeId}.json`, {
+            progress: currentProgress
+        }).then(({ data }) => {
+            
+        }).catch((error) => {
+            Logger.Error(`[Redux.Action.Movie] Unable to update episode progress to firebase`, error);
+            //Alert.alert('Lỗi', 'Không thể xóa phim khỏi danh sách của tôi.', [ { text: 'Đã hiểu' }]);
+        });
+
+        dispatch({
+            type: MOVIE_UPDATEEPISODEPROGRESS,
+            data: {
+                movieId,
+                episodeId,
+                progress: currentProgress
+            }
+        })
     };
 }

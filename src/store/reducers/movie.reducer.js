@@ -1,7 +1,7 @@
-import { MOVIE_SETMOVIES, MOVIE_SETCATEGORIES, MOVIE_SETMYLIST, MOVIE_SETDETAIL } from '../../constants/store';
+import { MOVIE_SETMOVIES, MOVIE_SETCATEGORIES, MOVIE_SETMYLIST, MOVIE_SETDETAIL, MOVIE_UPDATEEPISODEPROGRESS } from '../../constants/store';
 
 const initState = {
-    movies: [],
+    movies: {},
     myList: [],
     myListSortNumber: 0,
     categories: [],
@@ -19,7 +19,18 @@ export default function(state = initState, action) {
         case MOVIE_SETDETAIL: 
             return { ...state, detail: action.movie };
         case MOVIE_UPDATEEPISODEPROGRESS:
-            return state;
+            const movieId = action.data.movieId;
+            const episodeId = action.data.episodeId;
+            const progress = action.data.progress;
+
+            const movies = { ...state.movies };
+
+            movies[movieId].videos[episodeId].progress = progress;
+
+            const detail = movies[movieId];
+            detail.id = movieId;
+
+            return { ...state, movies, detail };
     }
 
     return state;

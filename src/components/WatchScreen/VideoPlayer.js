@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Alert } from 'react-native';
 import Video from 'react-native-video';
 import throttle from 'lodash.throttle';
 
@@ -15,7 +15,8 @@ const VideoPlayer = (props) => {
     const dispatch = useDispatch();
 
     const videoRef = useRef(null);
-
+    const [error, setError] = useState(false);
+    
     const videoUrl = useSelector(state => state.watch.episode.url);
     const startAt = useSelector(state => state.watch.startAt);
     const seek = useSelector(state => state.watch.seek);
@@ -29,11 +30,14 @@ const VideoPlayer = (props) => {
     }
     
 	const videoError = (error) => {
-		console.log("Error");
-		console.log(error);
+		Logger.Error(`[Component.WatchScreen.VideoPlayer] Unable to play the episode`, error);
+        Alert.alert('Lỗi', 'Không thể phát tập phim này', [ { text: 'Đã hiểu' }]);
+
+        setError(true);
     }
     const onProgress = (progress) => {
-        updateVideoStatus(progress);
+        updateVideoStatus(progress); // Throttled to 1s
+        updateVideoProgress(progress); // Throttled to 10s
     }
     const onSeek = (data) => {
         //console.log("Seek");
@@ -43,11 +47,16 @@ const VideoPlayer = (props) => {
         videoRef.current.seek(startAt);
         dispatch(watchSetVideoLoaded(true));
     }
-
+    const onVideoEnd = () => {
+        console.log('Video End');
+    }
     const updateVideoStatus = throttle((progress) => {
         dispatch(watchSetVideoProgress(progress.currentTime))
-        dispatch(movieUpdateEpisodeProgress(progress.currentTime))
     }, 1000);
+
+    const updateVideoProgress = throttle((progress) => {
+        dispatch(movieUpdateEpisodeProgress(progress.currentTime))
+    }, 5000);
 
     useEffect(() => {
         if(!seek.required || !videoRef.current)
@@ -55,6 +64,9 @@ const VideoPlayer = (props) => {
 
         if(seek.to > 0) videoRef.current.seek(seek.to);
     }, [seek]);
+
+    if(error)
+        return null;
 
     return (
         <View style={[styles.container, props.style]}>
@@ -65,6 +77,7 @@ const VideoPlayer = (props) => {
                 onProgress={onProgress}
                 onSeek={onSeek}
                 onLoad={onLoad}
+                onEnd={onVideoEnd}
                 style={styles.video}
                 bufferConfig={{
                     minBufferMs: 10 * 1000,
