@@ -18,6 +18,8 @@ export default function(state = initState, action) {
             return { ...state, myList: action.myList.list, myListSortNumber: action.myList.totalSortNumber };
         case MOVIE_SETDETAIL: 
             return { ...state, detail: action.movie };
+        case MOVIE_UPDATEEPISODEPROGRESS:
+            return state;
     }
 
     return state;

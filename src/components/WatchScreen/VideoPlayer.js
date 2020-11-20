@@ -1,9 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, StyleSheet } from 'react-native';
 import Video from 'react-native-video';
+import throttle from 'lodash.throttle';
 
-import { watchSetBuffering, watchSetVideoRef, watchSetVideoLoaded } from './../../store/actions/watch.action';
+import { movieUpdateEpisodeProgress } from './../../store/actions/movie.action';
+import { watchSetBuffering, watchSetVideoLoaded, watchSetVideoProgress } from './../../store/actions/watch.action';
 
 import Logger from './../../utils/logger';
 
@@ -11,9 +13,12 @@ const VideoPlayer = (props) => {
     Logger.Debug(`[VideoPlayer] Render`);
 
     const dispatch = useDispatch();
+
     const videoRef = useRef(null);
 
     const videoUrl = useSelector(state => state.watch.episode.url);
+    const startAt = useSelector(state => state.watch.startAt);
+    const seek = useSelector(state => state.watch.seek);
 
     const onVideoRef = (ref) => {
         videoRef.current = ref;
@@ -28,16 +33,28 @@ const VideoPlayer = (props) => {
 		console.log(error);
     }
     const onProgress = (progress) => {
-        //console.log("Progress");
-		//console.log(progress);
+        updateVideoStatus(progress);
     }
     const onSeek = (data) => {
-        console.log("Seek");
-        console.log(data);
+        //console.log("Seek");
+        //console.log(data);
     }
     const onLoad = () => {
+        videoRef.current.seek(startAt);
         dispatch(watchSetVideoLoaded(true));
     }
+
+    const updateVideoStatus = throttle((progress) => {
+        dispatch(watchSetVideoProgress(progress.currentTime))
+        dispatch(movieUpdateEpisodeProgress(progress.currentTime))
+    }, 1000);
+
+    useEffect(() => {
+        if(!seek.required || !videoRef.current)
+            return;
+
+        if(seek.to > 0) videoRef.current.seek(seek.to);
+    }, [seek]);
 
     return (
         <View style={[styles.container, props.style]}>

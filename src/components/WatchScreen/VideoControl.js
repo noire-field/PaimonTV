@@ -1,27 +1,44 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { View, StyleSheet, TouchableOpacity, TVEventHandler, Animated } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import PaimonText from './../../components/PaimonText';
+import { watchRequireSeek } from './../../store/actions/watch.action';
 
 import * as Colors from './../../constants/colors';
 import Logger from './../../utils/logger';
+import { DurationSecondToText } from './../../utils/movie';
+
+function GetCurrentSecond() {
+    return Math.floor(Date.now() / 1000);
+}
 
 const VideoControl = (props) => {
     Logger.Debug(`[VideoControl] Render`);
 
+    const dispatch = useDispatch();
+
     const controlFading = useRef(false);
     const pressCount = useRef(0);
     const fadeAnim = useRef(new Animated.Value(0))
+    const customTimer = useRef([0,0]);
 
     const [controlShown, setControlShown] = useState(false);
     const [focusRow, setFocusRow] = useState(1);
     const [playing, setPlaying] = useState(false);
+    const [seeking, setSeeking] = useState(false);
+    const [seekPos, setSeekPos] = useState(0);
 
     const movieTitle = useSelector(state => state.watch.movieTitle);
     const episodeTitle = useSelector(state => state.watch.episode.title);
 
+    const videoLoaded = useSelector(state => state.watch.videoLoaded);
+    const tempCurrentProgress = useSelector(state => state.watch.currentProgress);
+    const currentProgress = seeking ? seekPos : tempCurrentProgress;
+    const maxProgress = useSelector(state => state.watch.episode.duration);
+    const progressPercent = currentProgress / maxProgress * 100;
+    const remainProgressText = DurationSecondToText(Math.round(Math.abs(maxProgress - currentProgress)));
 
     const HideControl = () => {
         if(controlFading.current || !controlShown) return;
@@ -51,6 +68,7 @@ const VideoControl = (props) => {
             useNativeDriver: true
         }).start(() => {
             controlFading.current = false;
+            updateControlFadingTimer();
         });
 
         setControlShown(true);
@@ -65,6 +83,22 @@ const VideoControl = (props) => {
 
         if(moveUp) { setFocusRow(0); } 
         else { setFocusRow(1); }
+    }
+
+    const OnMoveVertical = (moveRight) => {
+        pressCount.current++
+        if(pressCount.current % 2 != 0)
+            return;
+
+        ShowControl();
+
+        if(!controlFading.current && controlShown && videoLoaded) // Completely Shown?
+        {
+            if(!seeking) setSeeking(true)
+            
+            updateSeekingTimer();
+            setSeekPos(Math.min(Math.max(currentProgress + (moveRight ? 10 : -10), 0), maxProgress));
+        }
     }
 
     const OnSelect = () => {
@@ -83,17 +117,36 @@ const VideoControl = (props) => {
         //}
     }
 
+    const CompleteSeeking = () => {
+        if(!seeking) return;
+
+        dispatch(watchRequireSeek(seekPos))
+        setSeeking(false);
+    }
+
+    const updateControlFadingTimer = () => { customTimer.current[0] = GetCurrentSecond() + 2 }
+    const updateSeekingTimer = () => { customTimer.current[1] = GetCurrentSecond() + 2 }
+    
     useEffect(() => {
         if(controlShown) {
-            var handler = setTimeout(HideControl, 1500);
-            return () => { clearTimeout(handler); }
+            var currentSecond = GetCurrentSecond();
+            if(currentSecond >= customTimer.current[0])
+                HideControl();
+            if(currentSecond >= customTimer.current[1])
+                CompleteSeeking();
+            
+            //var handler = setTimeout(HideControl, 1500);
+            //return () => { clearTimeout(handler); }
         }
     });
 
     useEffect(() => {
         var eventHandler = new TVEventHandler();
         eventHandler.enable(this, (cmp, evt) => {
+            updateControlFadingTimer();
             switch(evt.eventType) {
+                case 'left': OnMoveVertical(false); break;
+                case 'right': OnMoveVertical(true); break;
                 case 'up': OnMoveHorizontal(true); break;
                 case 'down': OnMoveHorizontal(false); break;
                 case 'select': OnSelect(); break;
@@ -108,8 +161,8 @@ const VideoControl = (props) => {
             <View style={styles.wrapper}>
                 <Animated.View style={{ opacity: fadeAnim.current }}>
                     <View style={[styles.progressBar, focusRow == 0 ? styles.progressBarSelected : {}]}>
-                        <View style={[ styles.progress, { width: '25%' }]}></View>
-                        <View style={[ styles.progressPoint, focusRow == 0 ? styles.progressPointSelected : {}, { left: '25%' }]}></View>
+                        <View style={[ styles.progress, { width: progressPercent+"%" }]}></View>
+                        <View style={[ styles.progressPoint, focusRow == 0 ? styles.progressPointSelected : {}, { left: progressPercent+"%" }]}></View>
                     </View>
                     <View style={styles.buttons}>
                         <View style={styles.leftButtons}>
@@ -124,7 +177,7 @@ const VideoControl = (props) => {
                             </TouchableOpacity>
                         </View>
                         <View style={styles.rightButtons}>
-                            <PaimonText style={styles.timeText}>23:00:00</PaimonText>
+                            <PaimonText style={styles.timeText}>{remainProgressText}</PaimonText>
                         </View>
                     </View>
                 </Animated.View>

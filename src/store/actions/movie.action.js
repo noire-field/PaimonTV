@@ -112,3 +112,8 @@ export function movieCheckToMyList(movieId, action) {
     };
 }
 
+export function movieUpdateEpisodeProgress(movieId, episodeId, progress) {
+    return (dispatch, getState) => {
+
+    };
+}

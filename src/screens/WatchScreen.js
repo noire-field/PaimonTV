@@ -25,8 +25,8 @@ const WatchScreen = (props) => {
     }, []);
 
     // State
-    const episode = useSelector(state => state.watch.episode);
-    if(!episode) return null;
+    //const episode = useSelector(state => state.watch.episode);
+    //if(!episode) return null;
 
     // 
     // <Image style={styles.image} source={{ uri: "https://s27514.pcdn.co/wp-content/uploads/2019/07/Titanic_Still.jpg.optimal.jpg" }}/>
