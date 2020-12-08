@@ -6,7 +6,7 @@ module.exports = {
 };
 
 function Debug(message) {
-    //console.log(message);
+    console.log(message);
 }
 
 function Error(message, error) {
@@ -19,6 +19,6 @@ function Error(message, error) {
         
     });
 
-    //console.log(message);
-    //console.log(error);
+    console.log(message);
+    console.log(error);
 }

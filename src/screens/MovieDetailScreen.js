@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { View, StyleSheet, Image, FlatList, TouchableOpacity, BackHandler } from 'react-native';
+import { View, StyleSheet, Image, FlatList, TouchableOpacity, BackHandler, Animated } from 'react-native';
 
 import PaimonText from './../components/PaimonText';
 import EpisodeItem from './../components/EpisodeItem';
 import PaimonButton from './../components/PaimonButton';
 
 import { movieCheckToMyList } from './../store/actions/movie.action';
-import { watchSetEpisode } from './../store/actions/watch.action';
+import { watchSetEpisode, watchSetPlayback } from './../store/actions/watch.action';
 
 import * as Colors from './../constants/colors';
 import Logger from './../utils/logger';
@@ -18,7 +18,8 @@ const MovieDetailScreen = (props) => {
 
     const [selected, setSelected] = useState(-2);
     const refWatchButton = useRef(null);
-
+    const fadeAnim = useRef(new Animated.Value(0))
+    
     const detail = useSelector(state => state.movie.detail);
     const myList = useSelector(state => state.movie.myList);
     const dispatch = useDispatch();
@@ -37,6 +38,8 @@ const MovieDetailScreen = (props) => {
             startAt = episode.progress;
 
         dispatch(watchSetEpisode(detail.title, episode, startAt));
+        dispatch(watchSetPlayback(true));
+
         props.navigation.replace('WatchScreen');
     }
 
@@ -54,6 +57,16 @@ const MovieDetailScreen = (props) => {
     useEffect(() => {
         // Forcefully focus
         if(refWatchButton) refWatchButton.current.focus();
+
+        fadeAnim.current.setValue(0);
+        Animated.timing(fadeAnim.current, {
+            toValue: 1,
+            delay: 500,
+            duration: 300,
+            useNativeDriver: true
+        }).start(() => {
+            
+        });
 
         const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
             props.navigation.replace('HomeScreen');
@@ -79,7 +92,11 @@ const MovieDetailScreen = (props) => {
 
     return (
         <View style={styles.container}>
-            <Image style={styles.backgroundImage} source={{ uri: detail.thumbnail }}/>
+            <View style={styles.backgroundImageWrapper}>
+                <Animated.View style={{ opacity: fadeAnim.current }}>
+                    <Image style={styles.backgroundImage} source={{ uri: detail.thumbnail }}/>
+                </Animated.View>
+            </View>
             <View style={styles.wrapper}>
                 <View style={styles.leftSide}>
                     <View style={styles.thumbnailWrapper}>
@@ -130,12 +147,16 @@ const styles = StyleSheet.create({
         flex: 1,
         position: 'relative'
     },
-    backgroundImage: {
+    backgroundImageWrapper: {
         position: 'absolute',
         top: 0,
         left: 0,
         height: '100%',
+        width: '100%'
+    },
+    backgroundImage: {
         resizeMode: 'cover',
+        height: '100%',
         width: '100%'
     },
     wrapper: {

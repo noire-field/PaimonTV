@@ -4,7 +4,7 @@ import { View, StyleSheet, TouchableOpacity, TVEventHandler, Animated } from 're
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import PaimonText from './../../components/PaimonText';
-import { watchRequireSeek } from './../../store/actions/watch.action';
+import { watchRequireSeek, watchSetPlayback } from './../../store/actions/watch.action';
 
 import * as Colors from './../../constants/colors';
 import Logger from './../../utils/logger';
@@ -26,7 +26,7 @@ const VideoControl = (props) => {
 
     const [controlShown, setControlShown] = useState(false);
     const [focusRow, setFocusRow] = useState(1);
-    const [playing, setPlaying] = useState(false);
+    const [playing, setPlaying] = useState(true);
     const [seeking, setSeeking] = useState(false);
     const [seekPos, setSeekPos] = useState(0);
 
@@ -109,11 +109,9 @@ const VideoControl = (props) => {
         ShowControl();
 
         //if(focusRow == 1) { // The Play/Pause button
-        
-
          // Directional Pad double-click bug fix
-        setPlaying(playing ? false: true);
-        
+        setPlaying(playing ? false : true);
+        dispatch(watchSetPlayback(playing ? false : true));
         //}
     }
 
@@ -144,6 +142,7 @@ const VideoControl = (props) => {
         var eventHandler = new TVEventHandler();
         eventHandler.enable(this, (cmp, evt) => {
             updateControlFadingTimer();
+            console.log(evt.eventType);
             switch(evt.eventType) {
                 case 'left': OnMoveVertical(false); break;
                 case 'right': OnMoveVertical(true); break;

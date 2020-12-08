@@ -15,8 +15,21 @@ const listMine = [
     { id: 2, imageUrl: "https://images-na.ssl-images-amazon.com/images/I/71MKj4j-isL._AC_SY879_.jpg" },
     { id: 1, imageUrl: "https://images-na.ssl-images-amazon.com/images/I/61KEdyRT5eL._AC_SL1050_.jpg" },
     { id: 0, imageUrl: "https://ae01.alicdn.com/kf/HTB1h5pCNXXXXXXiaXXXq6xXFXXX9.jpg" }
-]*/
+]
 
+{
+    "thumbnail": "https://images-na.ssl-images-amazon.com/images/I/61jphewUR6L._AC_SL1111_.jpg",
+    "title": "The Blacklist: Season 8",
+    "videos": {
+        "ep1": {
+            "duration": "",
+            "progress": "",
+            "title": "",
+            "url": ""
+        }
+    },
+    "year": 2020
+}*/
 
 export function MakeCategories(series, movies) {
     var list = [];

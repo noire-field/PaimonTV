@@ -20,6 +20,8 @@ const VideoPlayer = (props) => {
     const videoUrl = useSelector(state => state.watch.episode.url);
     const startAt = useSelector(state => state.watch.startAt);
     const seek = useSelector(state => state.watch.seek);
+    const playback = useSelector(state => state.watch.playback);
+    const videoLoaded = useSelector(state => state.watch.videoLoaded);
 
     const onVideoRef = (ref) => {
         videoRef.current = ref;
@@ -40,8 +42,8 @@ const VideoPlayer = (props) => {
         updateVideoProgress(progress); // Throttled to 10s
     }
     const onSeek = (data) => {
-        //console.log("Seek");
-        //console.log(data);
+        console.log("Seek");
+        console.log(data);
     }
     const onLoad = () => {
         videoRef.current.seek(startAt);
@@ -79,12 +81,15 @@ const VideoPlayer = (props) => {
                 onLoad={onLoad}
                 onEnd={onVideoEnd}
                 style={styles.video}
+                
+                fullscreen={true}
                 bufferConfig={{
                     minBufferMs: 10 * 1000,
                     maxBufferMs: 60 * 1000,
                     bufferForPlaybackMs: 10 * 1000,
                     bufferForPlaybackAfterRebufferMs: 10 * 1000
                 }}
+                paused={(videoLoaded && !playback) ? true : false}
                 />
         </View>
     );
