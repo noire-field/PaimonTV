@@ -1,0 +1,4 @@
+Before compiling check the following files:
+
+/PaimonTV.config.json (For Firebase path and auth)
+/android/local.properties (For Java SDK path)

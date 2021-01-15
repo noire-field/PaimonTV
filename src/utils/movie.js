@@ -109,7 +109,7 @@ export function DurationSecondToText(duration) {
 
         var text = `${hour}:${minute}:${remainSecond}`;
     } else {
-        var text = `${PadTimeText(Math.floor(duration / 60))}:${PadTimeText(duration % 60)}`;
+        var text = `${PadTimeText(Math.floor(duration / 60))}:${PadTimeText(Math.floor(duration % 60))}`;
     }
 
     return text;
