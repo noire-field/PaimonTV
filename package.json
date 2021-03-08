@@ -1,6 +1,6 @@
 {
   "name": "PaimonTV",
-  "version": "2.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -31,12 +31,13 @@
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.4",
-    "@babel/runtime": "^7.8.4",
+    "@babel/core": "^7.13.8",
+    "@babel/runtime": "^7.13.9",
     "@react-native-community/eslint-config": "^1.1.0",
     "babel-jest": "^25.1.0",
     "eslint": "^6.5.1",
     "jest": "^25.1.0",
+    "metro": "^0.59.0",
     "metro-react-native-babel-preset": "^0.59.0",
     "react-test-renderer": "16.13.1"
   },
