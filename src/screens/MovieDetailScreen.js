@@ -25,8 +25,8 @@ const MovieDetailScreen = (props) => {
     const dispatch = useDispatch();
 
     const movieInMyList = FindMovieInMyList(detail.id, myList);
-    const episodeList = EpisodeObjectToArray(detail.videos);
-    const numOfEp = Object.keys(detail.videos).length;
+    const episodeList = EpisodeObjectToArray(detail.episodes ? detail.episodes : {});
+    const numOfEp = detail.episodes ? Object.keys(detail.episodes).length : 0;
 
     const onEpisodeFocus = (index) => { setSelected(index); }
     const onEpisodeBlur = () => { setSelected(-3); }
@@ -44,6 +44,8 @@ const MovieDetailScreen = (props) => {
     }
 
     const onWatchMovie = () => {
+        if(episodeList.length <= 0) return;
+        
         var episodeIndex = ScanMovieEpisodes(episodeList)
         onEpisodePress(episodeIndex, episodeList[episodeIndex]);
     }
@@ -106,6 +108,7 @@ const MovieDetailScreen = (props) => {
                 <View style={styles.rightSide}>
                     <View style={styles.detailWrapper}>
                         <PaimonText type='header' style={styles.movieTitle}>{detail.title}</PaimonText>
+                        <PaimonText type='sub-header' style={styles.movieSubTitle}>{detail.subTitle}</PaimonText>
                         <View style={styles.movieInfo}>
                             <PaimonText style={styles.movieYear}>{detail.year}</PaimonText>
                             <PaimonText style={styles.movieNumOfEp}>{numOfEp} Tập</PaimonText>
@@ -200,6 +203,11 @@ const styles = StyleSheet.create({
     movieTitle: {
         fontSize: 30,
         lineHeight: 30
+    },
+    movieSubTitle: {
+        fontSize: 20,
+        lineHeight: 22,
+        marginBottom: 5
     },
     movieInfo: {
         flexDirection: 'row',

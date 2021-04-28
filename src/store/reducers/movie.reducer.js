@@ -3,7 +3,6 @@ import { MOVIE_SETMOVIES, MOVIE_SETCATEGORIES, MOVIE_SETMYLIST, MOVIE_SETDETAIL,
 const initState = {
     movies: {},
     myList: [],
-    myListSortNumber: 0,
     categories: [],
     detail: null
 };
@@ -15,7 +14,7 @@ export default function(state = initState, action) {
         case MOVIE_SETCATEGORIES:
             return { ...state, categories: action.categories };
         case MOVIE_SETMYLIST:
-            return { ...state, myList: action.myList.list, myListSortNumber: action.myList.totalSortNumber };
+            return { ...state, myList: action.myList.list };
         case MOVIE_SETDETAIL: 
             return { ...state, detail: action.movie };
         case MOVIE_UPDATEEPISODEPROGRESS:
@@ -25,7 +24,7 @@ export default function(state = initState, action) {
 
             const movies = { ...state.movies };
 
-            movies[movieId].videos[episodeId].progress = progress;
+            movies[movieId].episodes[episodeId].progress = Math.round(progress);
 
             const detail = movies[movieId];
             detail.id = movieId;

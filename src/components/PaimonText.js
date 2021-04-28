@@ -13,6 +13,10 @@ const PaimonText = (props) => {
             extraStyles.fontSize = TextConst.TEXT_HEADER;
             extraStyles.fontFamily = 'NetflixSans-Medium';
         break;
+        case 'sub-header': 
+            extraStyles.fontSize = TextConst.TEXT_SUBHEADER;
+            extraStyles.fontFamily = 'NetflixSans-Medium';
+        break;
         default: break;
     }
 

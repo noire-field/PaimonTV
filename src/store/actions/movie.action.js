@@ -16,12 +16,11 @@ export function movieSetCategories(categories) {
     };
 }
 
-export function movieSetMyList(myList, totalSortNumber) {
+export function movieSetMyList(myList) {
     return {
         type: MOVIE_SETMYLIST,
         myList: {
-            list: myList,
-            totalSortNumber
+            list: myList
         }
     };
 }
@@ -55,7 +54,6 @@ export function movieCheckToMyList(movieId, action) {
         const stateMovie = getState().movie;
         var movieList = stateMovie.movies;
         var myList = stateMovie.myList;
-        var sortNumber = stateMovie.myListSortNumber;
 
         if(!movieList.hasOwnProperty(movieId))
             return;
@@ -64,31 +62,22 @@ export function movieCheckToMyList(movieId, action) {
 
         if(action == 1) { // Add
             var newMyList = [...myList]
-            newMyList.push({
+            newMyList.unshift({
                 title: movie.title,
+                subTitle: movie.subTitle,
                 thumbnail: movie.thumbnail,
                 movieId: movieId,
-                sortNumber: ++sortNumber
             });
 
-            dispatch(movieSetMyList(newMyList, sortNumber));
+            dispatch(movieSetMyList(newMyList));
 
-            axios.patch('/myList/list.json', {
-                [movieId]: sortNumber
+            axios.patch('/myList.json', {
+                [movieId]: new Date().getTime()
             }).then(({ data }) => {
                 
             }).catch((error) => {
                 Logger.Error(`[Redux.Action.Movie] Unable to add movie to list`, error);
                 Alert.alert('Lỗi', 'Không thể thêm phim vào danh sách của tôi.', [ { text: 'Đã hiểu' }]);
-            });
-
-            axios.patch('/myList.json', {
-                sortNumber: sortNumber
-            }).then(({ data }) => {
-                
-            }).catch((error) => {
-                Logger.Error(`[Redux.Action.Movie] Unable to update sort number for list`, error);
-                Alert.alert('Lỗi', 'Không thể thêm phim vào danh sách của tôi #2.', [ { text: 'Đã hiểu' }]);
             });
         } else if(action == -1) { // Remove
             var newMyList = myList.filter((item) => {
@@ -98,9 +87,9 @@ export function movieCheckToMyList(movieId, action) {
                 return true;
             });
 
-            dispatch(movieSetMyList(newMyList, sortNumber));
+            dispatch(movieSetMyList(newMyList));
 
-            axios.patch('/myList/list.json', {
+            axios.patch('/myList.json', {
                 [movieId]: null
             }).then(({ data }) => {
                 
@@ -119,11 +108,11 @@ export function movieUpdateEpisodeProgress(progress) {
 
         var movieId = state.movie.detail.id;
         var episodeId = state.watch.episode.id;
-        var currentProgress = state.watch.currentProgress;
+        var currentProgress = Math.round(state.watch.currentProgress);
 
         if(currentProgress <= 0) return;
 
-        axios.patch(`/movies/${movieId}/videos/${episodeId}.json`, {
+        axios.patch(`/movies/${movieId}/episodes/${episodeId}.json`, {
             progress: currentProgress
         }).then(({ data }) => {
             

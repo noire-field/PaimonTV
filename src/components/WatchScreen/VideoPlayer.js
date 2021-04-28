@@ -10,6 +10,7 @@ import { watchSetBuffering, watchSetVideoLoaded, watchSetVideoProgress } from '.
 import Logger from './../../utils/logger';
 
 const VideoPlayer = (props) => {
+    console.log(props);
     Logger.Debug(`[VideoPlayer] Render`);
 
     const dispatch = useDispatch();
@@ -51,6 +52,7 @@ const VideoPlayer = (props) => {
     }
     const onVideoEnd = () => {
         console.log('Video End');
+        props.navigation.replace('MovieDetailScreen');
     }
     const updateVideoStatus = throttle((progress) => {
         dispatch(watchSetVideoProgress(progress.currentTime))

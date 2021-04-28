@@ -32,7 +32,7 @@ const WatchScreen = (props) => {
     // <Image style={styles.image} source={{ uri: "https://s27514.pcdn.co/wp-content/uploads/2019/07/Titanic_Still.jpg.optimal.jpg" }}/>
 	return (
 		<View style={styles.container}>
-            <VideoPlayer style={styles.fullscreen}/>
+            <VideoPlayer style={styles.fullscreen} navigation={props.navigation}/>
             <ScreenLoading style={styles.fullscreen}/>
             <VideoControl/>
         </View>

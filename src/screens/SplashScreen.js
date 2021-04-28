@@ -22,9 +22,11 @@ const SplashScreen = (props) => {
                 Logger.Debug(`[SplashScreen] Loading server data...`);
 
                 axios.get('/.json').then(({ data }) => {
+                    //console.log(data);
+                    
                     dispatch(movieSetMovies(data.movies));
                     dispatch(movieSetCategories(MakeCategories(data.series, data.movies)));
-                    dispatch(movieSetMyList(MakeMyList(data.myList, data.movies), data.myList.sortNumber));
+                    dispatch(movieSetMyList(MakeMyList(data.myList, data.movies)));
     
                     Logger.Debug(`[SplashScreen] Data is loaded.`);
 

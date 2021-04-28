@@ -41,15 +41,16 @@ export function MakeCategories(series, movies) {
 
         let objMovies = series[key].movies;
         for(const key2 in objMovies) {
-            let thisMovie = movies[objMovies[key2]];
+            let thisMovie = movies[key2];
 
             let movieShow = {
                 title: thisMovie.title,
                 thumbnail: thisMovie.thumbnail,
-                movieId: objMovies[key2]
+                movieId: key2
             };
 
             category.movies.push(movieShow);
+            category.movies.reverse();
         }
 
         list.push(category);
@@ -62,9 +63,9 @@ export function MakeCategories(series, movies) {
 export function MakeMyList(list, movies) {
     var myList = [];
 
-    for(const key in list.list) {
+    for(const key in list) {
         let objMovies = movies[key];
-        let sortNumber = list.list[key];
+        let sortNumber = list[key];
 
         let movieShow = {
             title: objMovies.title,
@@ -83,6 +84,9 @@ export function MakeMyList(list, movies) {
 
 export function EpisodeObjectToArray(objList) {
     var list = [];
+
+    if(!objList || Object.keys(objList).length <= 0)
+        return list;
 
     for(var key in objList) {
         list.push({
