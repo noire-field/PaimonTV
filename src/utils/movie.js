@@ -95,6 +95,10 @@ export function EpisodeObjectToArray(objList) {
         });
     }
 
+    list.sort((a, b) => {
+        return Number(a.id.substring(2)) - Number(b.id.substring(2));
+    });
+
     return list;
 }
 

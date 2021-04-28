@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Platform } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux';
 import { View, StyleSheet, Image, FlatList, TouchableOpacity, BackHandler, Animated } from 'react-native';
 
@@ -106,9 +107,9 @@ const MovieDetailScreen = (props) => {
                     </View>
                 </View>
                 <View style={styles.rightSide}>
-                    <View style={styles.detailWrapper}>
-                        <PaimonText type='header' style={styles.movieTitle}>{detail.title}</PaimonText>
-                        <PaimonText type='sub-header' style={styles.movieSubTitle}>{detail.subTitle}</PaimonText>
+                    <View style={Platform.isTV ? styles.detailWrapperTV : styles.detailWrapperPhone}>
+                        <PaimonText type='header' style={styles.movieTitle} numberOfLines={1}>{detail.title}</PaimonText>
+                        <PaimonText type='sub-header' style={styles.movieSubTitle} numberOfLines={1}>{detail.subTitle}</PaimonText>
                         <View style={styles.movieInfo}>
                             <PaimonText style={styles.movieYear}>{detail.year}</PaimonText>
                             <PaimonText style={styles.movieNumOfEp}>{numOfEp} Tập</PaimonText>
@@ -135,7 +136,7 @@ const MovieDetailScreen = (props) => {
                             </View>
                         </View>
                         <PaimonText type="header">Danh sách tập</PaimonText>
-                        <View style={styles.episodeListWrapper}>
+                        <View style={Platform.isTV ? styles.episodeListWrapperTV : styles.episodeListWrapperPhone }>
                             <FlatList data={episodeList} contentContainerStyle={styles.episodeList} renderItem={renderEpisodeItem} keyExtractor={(item) => item.id}/>
                         </View>
                     </View>
@@ -173,17 +174,16 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     leftSide: {
-        flex: 2,
+        width: '40%',
         justifyContent: 'center',
         alignItems: 'flex-end',
-        paddingRight: 20
+        paddingRight: 10
     },
     rightSide: {
-        flex: 4,
+        width: '60%',
         justifyContent: 'center',
         alignItems: 'flex-start',
-        paddingLeft: 0,
-        paddingRight: 10
+        paddingLeft: 10
     },
     thumbnailWrapper: {
         height: 200 * 2,
@@ -196,8 +196,15 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%'
     },
-    detailWrapper: {
-        height: 200 * 2,
+    detailWrapperPhone: {
+        paddingTop: 15,
+        height: '100%',
+        width: '100%'
+    },
+    detailWrapperTV: {
+        padding: 10,
+        paddingTop: 70,
+        height: '100%',
         width: '100%'
     },
     movieTitle: {
@@ -231,9 +238,13 @@ const styles = StyleSheet.create({
     watchButton: {
         marginRight: 10
     },
-    episodeListWrapper: {
+    episodeListWrapperTV: {
         flex: 1,
-        width: '80%'
+        width: '85%'
+    },
+    episodeListWrapperPhone: {
+        flex: 1,
+        width: '100%'
     },
     episodeList: {
         paddingRight: 10
