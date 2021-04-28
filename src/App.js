@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { StatusBar } from 'react-native';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import ReduxThunk from 'redux-thunk';
@@ -17,6 +18,7 @@ const App = () => {
     Logger.Debug(`[App] Render`);
 
 	useEffect(() => {
+		StatusBar.setHidden(true);
         SplashScreen.hide();
         Logger.Debug(`[App] Splash Screen : Hide`);
 	}, [])
