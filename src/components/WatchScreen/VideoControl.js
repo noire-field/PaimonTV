@@ -97,7 +97,8 @@ const VideoControl = (props) => {
             if(!seeking) setSeeking(true)
             
             updateSeekingTimer();
-            setSeekPos(Math.min(Math.max(currentProgress + (moveRight ? 10 : -10), 0), maxProgress));
+            const targetProgress = Math.min(Math.max(currentProgress + (moveRight ? 10 : -10), 1), maxProgress);
+            setSeekPos(targetProgress);
         }
     }
 

@@ -10,7 +10,6 @@ import { watchSetBuffering, watchSetVideoLoaded, watchSetVideoProgress } from '.
 import Logger from './../../utils/logger';
 
 const VideoPlayer = (props) => {
-    console.log(props);
     Logger.Debug(`[VideoPlayer] Render`);
 
     const dispatch = useDispatch();
@@ -88,11 +87,11 @@ const VideoPlayer = (props) => {
                 bufferConfig={{
                     minBufferMs: 10 * 1000,
                     maxBufferMs: 60 * 1000,
-                    bufferForPlaybackMs: 10 * 1000,
-                    bufferForPlaybackAfterRebufferMs: 10 * 1000
+                    bufferForPlaybackMs: 1 * 1000,
+                    bufferForPlaybackAfterRebufferMs: 1 * 1000
                 }}
                 paused={(videoLoaded && !playback) ? true : false}
-                />
+            />
         </View>
     );
 }
