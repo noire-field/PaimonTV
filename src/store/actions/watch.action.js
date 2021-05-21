@@ -1,4 +1,4 @@
-import { WATCH_SETEPISODE, WATCH_SETBUFFERING, WATCH_SETVIDEOPROGRESS, WATCH_SETVIDEOLOADED, WATCH_REQUIRESEEK, WATCH_SETPLAYBACK } from './../../constants/store';
+import { WATCH_SETEPISODE, WATCH_SETBUFFERING, WATCH_SETVIDEOPROGRESS, WATCH_SETVIDEOLOADED, WATCH_REQUIRESEEK, WATCH_SETPLAYBACK, WATCH_RESETPLAYER } from './../../constants/store';
 
 export function watchSetEpisode(movieTitle, episode, startAt) {
     return {
@@ -46,5 +46,11 @@ export function watchSetPlayback(playback) {
     return {
         type: WATCH_SETPLAYBACK,
         playback
+    }
+}
+
+export function watchResetPlayer() {
+    return {
+        type: WATCH_RESETPLAYER
     }
 }

@@ -8,7 +8,7 @@ import EpisodeItem from './../components/EpisodeItem';
 import PaimonButton from './../components/PaimonButton';
 
 import { movieCheckToMyList } from './../store/actions/movie.action';
-import { watchSetEpisode, watchSetPlayback } from './../store/actions/watch.action';
+import { watchResetPlayer, watchSetEpisode, watchSetPlayback } from './../store/actions/watch.action';
 
 import * as Colors from './../constants/colors';
 import Logger from './../utils/logger';
@@ -35,9 +35,10 @@ const MovieDetailScreen = (props) => {
         var completedRate = GetEpisodeCompletedRate(episode);
         var startAt = 0;
 
-        if(completedRate < 95)
+        if(completedRate < 92)
             startAt = episode.progress;
 
+        dispatch(watchResetPlayer());
         dispatch(watchSetEpisode(detail.title, episode, startAt));
         dispatch(watchSetPlayback(true));
 

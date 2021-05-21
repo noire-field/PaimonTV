@@ -1,4 +1,4 @@
-import { WATCH_SETEPISODE, WATCH_SETBUFFERING, WATCH_SETVIDEOPROGRESS, WATCH_SETVIDEOLOADED, WATCH_REQUIRESEEK, WATCH_SETPLAYBACK } from '../../constants/store';
+import { WATCH_SETEPISODE, WATCH_SETBUFFERING, WATCH_SETVIDEOPROGRESS, WATCH_SETVIDEOLOADED, WATCH_REQUIRESEEK, WATCH_SETPLAYBACK, WATCH_RESETPLAYER } from '../../constants/store';
 
 const initState = {
     movieTitle: "",
@@ -28,6 +28,21 @@ export default function(state = initState, action) {
             return { ...state, seek: action.seek };
         case WATCH_SETPLAYBACK:
             return { ...state, playback: action.playback }
+        case WATCH_RESETPLAYER:
+            return { 
+                ...state, 
+                movieTitle: "",
+                episode: null,
+                startAt: 0,
+                currentProgress: 0,
+                buffering: false,
+                videoLoaded: false,
+                seek: {
+                    required: false,
+                    to: 0
+                },
+                playback: false
+            }
     }
 
     return state;

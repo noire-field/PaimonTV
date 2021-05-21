@@ -85,7 +85,7 @@ const VideoPlayer = (props) => {
                 
                 fullscreen={true}
                 bufferConfig={{
-                    minBufferMs: 10 * 1000,
+                    minBufferMs: 5 * 1000,
                     maxBufferMs: 60 * 1000,
                     bufferForPlaybackMs: 1 * 1000,
                     bufferForPlaybackAfterRebufferMs: 1 * 1000
@@ -110,4 +110,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default React.memo(VideoPlayer);
+export default VideoPlayer;
