@@ -17,7 +17,7 @@ const VideoPlayer = (props) => {
     const videoRef = useRef(null);
     const [error, setError] = useState(false);
     
-    const videoUrl = useSelector(state => state.watch.episode.url);
+    const videoUrl = useSelector(state => state.watch.episode ? state.watch.episode.url : '');
     const startAt = useSelector(state => state.watch.startAt);
     const seek = useSelector(state => state.watch.seek);
     const playback = useSelector(state => state.watch.playback);
@@ -68,8 +68,7 @@ const VideoPlayer = (props) => {
         if(seek.to > 0) videoRef.current.seek(seek.to);
     }, [seek]);
 
-    if(error)
-        return null;
+    if(!videoUrl || error) return (<View style={[styles.container, props.style]}></View>);
 
     return (
         <View style={[styles.container, props.style]}>

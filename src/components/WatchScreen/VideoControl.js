@@ -31,12 +31,12 @@ const VideoControl = (props) => {
     const [seekPos, setSeekPos] = useState(0);
 
     const movieTitle = useSelector(state => state.watch.movieTitle);
-    const episodeTitle = useSelector(state => state.watch.episode.title);
+    const episodeTitle = useSelector(state => state.watch.episode ? state.watch.episode.title : 'Episode Title');
 
     const videoLoaded = useSelector(state => state.watch.videoLoaded);
     const tempCurrentProgress = useSelector(state => state.watch.currentProgress);
     const currentProgress = seeking ? seekPos : tempCurrentProgress;
-    const maxProgress = useSelector(state => state.watch.episode.duration);
+    const maxProgress = useSelector(state => state.watch.episode ? state.watch.episode.duration : 1);
     const progressPercent = currentProgress / maxProgress * 100;
     const remainProgressText = DurationSecondToText(Math.round(Math.abs(maxProgress - currentProgress)));
 

@@ -146,7 +146,7 @@ export function ScanMovieEpisodes(episodes) {
         let ep = episodes[i];
         let completedPercent = GetEpisodeCompletedRate(ep);
 
-        if(completedPercent >= 95) continue;
+        if(completedPercent >= 92) continue;
         else {
             episodeIndex = i;
             break;

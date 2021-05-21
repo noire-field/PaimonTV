@@ -106,6 +106,8 @@ export function movieUpdateEpisodeProgress(progress) {
 
         const state = getState();
 
+        if(!state.watch.episode) return;
+        
         var movieId = state.movie.detail.id;
         var episodeId = state.watch.episode.id;
         var currentProgress = Math.round(state.watch.currentProgress);

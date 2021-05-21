@@ -19,7 +19,7 @@ const MovieDetailScreen = (props) => {
 
     const [selected, setSelected] = useState(-2);
     const refWatchButton = useRef(null);
-    const fadeAnim = useRef(new Animated.Value(0))
+    //const fadeAnim = useRef(new Animated.Value(0))
     
     const detail = useSelector(state => state.movie.detail);
     const myList = useSelector(state => state.movie.myList);
@@ -37,8 +37,7 @@ const MovieDetailScreen = (props) => {
 
         if(completedRate < 92)
             startAt = episode.progress;
-
-        dispatch(watchResetPlayer());
+        
         dispatch(watchSetEpisode(detail.title, episode, startAt));
         dispatch(watchSetPlayback(true));
 
@@ -62,6 +61,7 @@ const MovieDetailScreen = (props) => {
         // Forcefully focus
         if(refWatchButton) refWatchButton.current.focus();
 
+        /*
         fadeAnim.current.setValue(0);
         Animated.timing(fadeAnim.current, {
             toValue: 1,
@@ -69,8 +69,12 @@ const MovieDetailScreen = (props) => {
             duration: 300,
             useNativeDriver: true
         }).start(() => {
-            
-        });
+            dispatch(watchResetPlayer());
+            Logger.Debug(`[MovieDetailScreen] Reset Video Player`);
+        });*/
+
+        dispatch(watchResetPlayer());
+        Logger.Debug(`[MovieDetailScreen] Reset Video Player`);
 
         const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
             props.navigation.replace('HomeScreen');
@@ -94,12 +98,14 @@ const MovieDetailScreen = (props) => {
         );
     };
 
+    /*
+    <Animated.View style={{ opacity: fadeAnim.current }}>
+    </Animated.View>
+    */
     return (
         <View style={styles.container}>
             <View style={styles.backgroundImageWrapper}>
-                <Animated.View style={{ opacity: fadeAnim.current }}>
-                    <Image style={styles.backgroundImage} source={{ uri: detail.thumbnail }}/>
-                </Animated.View>
+                <Image style={styles.backgroundImage} source={{ uri: detail.thumbnail }}/>
             </View>
             <View style={styles.wrapper}>
                 <View style={styles.leftSide}>

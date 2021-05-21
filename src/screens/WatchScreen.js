@@ -17,7 +17,6 @@ const WatchScreen = (props) => {
             props.navigation.replace('MovieDetailScreen');
             return true;
         });
-
     
         return () => {
             backHandler.remove();
@@ -30,6 +29,7 @@ const WatchScreen = (props) => {
 
     // 
     // <Image style={styles.image} source={{ uri: "https://s27514.pcdn.co/wp-content/uploads/2019/07/Titanic_Still.jpg.optimal.jpg" }}/>
+    
 	return (
 		<View style={styles.container}>
             <VideoPlayer style={styles.fullscreen} navigation={props.navigation}/>
