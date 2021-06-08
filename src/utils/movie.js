@@ -32,11 +32,14 @@ const listMine = [
 }*/
 
 export function MakeCategories(series, movies) {
+    console.log(series);
+
     var list = [];
     for(const key in series) {
         let category = {
             title: series[key].title,
-            movies: []
+            movies: [],
+            createdAt: series[key].createdAt
         }
 
         let objMovies = series[key].movies;
@@ -55,6 +58,8 @@ export function MakeCategories(series, movies) {
 
         list.push(category);
     }
+
+    list.sort((a, b) => b.createdAt - a.createdAt);
 
     return list;
 }

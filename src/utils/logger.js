@@ -1,4 +1,5 @@
 import axios from './axios';
+import config from './../../PaimonTV.config.json'
 
 module.exports = {
     Debug,
@@ -6,6 +7,7 @@ module.exports = {
 };
 
 function Debug(message) {
+    if(!config.DEBUG) return;
     console.log(message);
 }
 
@@ -19,6 +21,8 @@ function Error(message, error) {
         
     });
 
-    console.log(message);
-    console.log(error);
+    if(config.DEBUG) {
+        console.log(message);
+        console.log(error);
+    }
 }
