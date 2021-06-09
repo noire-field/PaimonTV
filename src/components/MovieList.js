@@ -12,7 +12,10 @@ const MovieList = (props) => {
 
     const [selected, setSelected] = useState(-1);
 
-    const onMovieFocus = (index, movie) => { setSelected(index); }
+    const onMovieFocus = (index, movie) => { 
+        setSelected(index); 
+        if(props.onMovieHover) props.onMovieHover(movie);
+    }
     const onMovieBlur = (index, movie) => { setSelected(-1); }
     const onMoviePress = (index, movie) => { props.onMovieSelect(movie.movieId); }
 

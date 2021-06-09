@@ -143,7 +143,7 @@ const VideoControl = (props) => {
         var eventHandler = new TVEventHandler();
         eventHandler.enable(this, (cmp, evt) => {
             updateControlFadingTimer();
-            console.log(evt.eventType);
+            Logger.Debug(evt.eventType);
             switch(evt.eventType) {
                 case 'left': OnMoveVertical(false); break;
                 case 'right': OnMoveVertical(true); break;

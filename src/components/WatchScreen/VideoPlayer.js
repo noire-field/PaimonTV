@@ -42,8 +42,6 @@ const VideoPlayer = (props) => {
         if(status.didJustFinish) {
             props.navigation.replace('MovieDetailScreen');
         }
-
-        //console.log(status.isBuffering == true ? "Buffering" : "Not Buffer");
     }
     
 	const onError = (error) => {
@@ -91,7 +89,7 @@ const VideoPlayer = (props) => {
                 source={{
                     uri: videoUrl
                 }}
-                resizeMode="cover"
+                resizeMode="contain"
                 shouldPlay
                 onPlaybackStatusUpdate={onPlaybackStatusUpdate}
                 onLoad={onLoad}
