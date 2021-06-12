@@ -10,6 +10,9 @@ export function MakeCategories(series, movies) {
         let objMovies = series[key].movies;
         for(const key2 in objMovies) {
             let thisMovie = movies[key2];
+            
+            if(!thisMovie)
+                continue;
 
             let movieShow = {
                 title: thisMovie.title,
@@ -36,6 +39,9 @@ export function MakeMyList(list, movies) {
     for(const key in list) {
         let objMovies = movies[key];
         let sortNumber = list[key];
+
+        if(!objMovies)
+            continue;
 
         let movieShow = {
             title: objMovies.title,
