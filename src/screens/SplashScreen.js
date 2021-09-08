@@ -22,8 +22,6 @@ const SplashScreen = (props) => {
                 Logger.Debug(`[SplashScreen] Loading server data...`);
 
                 axios.get('/.json').then(({ data }) => {
-                    //console.log(data);
-                    
                     dispatch(movieSetMovies(data.movies));
                     dispatch(movieSetCategories(MakeCategories(data.series, data.movies)));
                     dispatch(movieSetMyList(MakeMyList(data.myList, data.movies)));
@@ -56,7 +54,7 @@ const SplashScreen = (props) => {
 
     return (
         <View style={styles.container}>
-            <Image style={styles.splashImage} source={require('./../assets/images/splash_paimon2.png')}/>
+            <Image style={styles.splashImage} source={require('./../assets/images/splash_klee.png')}/>
             <View style={styles.statusBox}>
                 {renderContent}
             </View>

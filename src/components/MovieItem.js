@@ -2,10 +2,12 @@ import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import * as Colors from './../constants/colors';
 
+import Logger from './../utils/logger';
+
 const MovieItem = (props) => {
     return (
         <View style={styles.container}>
-            <Image style={styles.image} source={{ uri: props.image }} onError={(error) => console.log(error.nativeEvent.error)}/>
+            <Image style={styles.image} source={{ uri: props.image }} onError={(error) => Logger.Debug(error.nativeEvent.error)}/>
             <View style={[styles.wrapper, props.selected ? styles.wrapperSelected : styles.wrapperUnselected]}></View>
         </View>
     )
