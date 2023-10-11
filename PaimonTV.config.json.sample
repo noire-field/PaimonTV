@@ -1,7 +1,7 @@
 {
     "DEBUG": true,
     "FIREBASE": {
-        "URL": "https://someurl.firebaseio.com",
-        "USER": "someone"
+        "URL": "https://abc.xyz.firebasedatabase.app/users",
+        "USER": "a-b-c-d-e"
     }
 }
