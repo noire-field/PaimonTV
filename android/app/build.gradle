@@ -154,9 +154,9 @@ android {
         }
         release {
             storeFile file('paimontv.keystore')
-            storePassword 'paimontv'
+            storePassword 'paimontv123@'
             keyAlias 'paimontv'
-            keyPassword 'paimontv'
+            keyPassword 'paimontv123@'
         }
     }
     buildTypes {
@@ -232,3 +232,9 @@ task copyDownloadableDepsToLibs(type: Copy) {
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+
+configurations.all {
+    resolutionStrategy {
+        force 'androidx.core:core-ktx:1.6.0'
+    }
+}

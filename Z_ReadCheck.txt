@@ -2,3 +2,7 @@ Before compiling check the following files:
 
 /PaimonTV.config.json (For Firebase path and auth)
 /android/local.properties (For Java SDK path)
+
+
+UPDATED ON 2023-10-11: HOW TO BUILD
+USE THIS LINK: https://instamobile.io/android-development/generate-react-native-release-build-android/
