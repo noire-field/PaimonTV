@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useKeepAwake } from '@sayem314/react-native-keep-awake';
 import { View, StyleSheet, BackHandler, Image } from 'react-native';
 
 import ScreenLoading from './../components/WatchScreen/ScreenLoading';
@@ -10,6 +10,8 @@ import Logger from './../utils/logger';
 
 const WatchScreen = (props) => {
     Logger.Debug(`[WatchScreen] Render`);
+
+    useKeepAwake();
 
     // Back Button Handler
     useEffect(() => {
