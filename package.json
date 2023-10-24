@@ -1,6 +1,6 @@
 {
   "name": "PaimonTV",
-  "version": "8.0",
+  "version": "9.0.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -13,7 +13,6 @@
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/native": "^5.8.6",
     "@react-navigation/stack": "^5.12.3",
-    "@sayem314/react-native-keep-awake": "^1.2.2",
     "axios": "^0.21.0",
     "expo-av": "^9.1.2",
     "lodash.debounce": "^4.0.8",
@@ -21,6 +20,7 @@
     "react": "16.13.1",
     "react-native": "0.63.3",
     "react-native-gesture-handler": "^1.8.0",
+    "react-native-keep-awake": "^4.0.0",
     "react-native-reanimated": "^1.13.1",
     "react-native-safe-area-context": "^3.1.8",
     "react-native-screens": "^2.13.0",

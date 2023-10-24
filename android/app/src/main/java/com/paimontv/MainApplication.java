@@ -1,5 +1,6 @@
 package com.paimontv;
 
+import com.corbt.keepawake.KCKeepAwakePackage;
 import com.paimontv.generated.BasePackageList;
 
 import android.app.Application;
@@ -42,7 +43,8 @@ public class MainApplication extends Application implements ReactApplication {
             new ModuleRegistryAdapter(mModuleRegistryProvider)
           );
           packages.addAll(unimodules);
-
+          //packages.add(new KCKeepAwakePackage());
+          
           return packages;
         }
 

@@ -1,5 +1,6 @@
 Before compiling check the following files:
 
+npm ci (not npm install) to install package with correct version
 /PaimonTV.config.json (For Firebase path and auth)
 /android/local.properties (For Java SDK path)
 
